@@ -1,0 +1,13 @@
+positibe_news_news_comment_create:
+    path: /new
+    methods: [GET, POST]
+    defaults:
+        _controller: positibe_news.controller.comment:createAction
+        _sylius:
+            template: PositibeNewsBundle:Comment:create.html.twig
+            redirect:
+                route: positibe_news_news_show
+                parameters: {slug: $slug}
+            factory:
+                method: createNewComment
+                arguments: [$slug]

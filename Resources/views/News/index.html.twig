@@ -1,0 +1,101 @@
+{% extends '::base.html.twig' %}
+
+{% from 'PositibeClassificationBundle:Macros:tags.html.twig' import list_tags %}
+
+{#{% block metas %}#}
+    {#{{ sonata_seo_title('Juan de los muertos') }}#}
+    {#{{ parent() }}#}
+{#{% endblock %}#}
+
+{% block body -%}
+    <h1>Últimas noticias</h1>
+    <form class="form-inline form-filter" action="{{ path(app.request.get('routeDocument')) }}" method="get">
+        <div class="form-group">
+            <label for="criteria_title" class="sr-only control-label">Title</label>
+            <input type="text" class=" form-control" placeholder="Title" name="criteria[title]"
+                   id="criteria_title"></div>
+        <div class="form-group">
+            <label for="criteria_about" class="sr-only control-label">About</label>
+            <input type="text" class="form-control" placeholder="About" name="criteria[about]"
+                   id="criteria_about"></div>
+        <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i> Filter</button>
+    </form>
+    <div class="">
+        Ordenar Por: {{ sylius_resource_sort('title', 'Título') }}
+    </div>
+    <div class="row">
+        <div class="col-xs-9">
+            {{ positibe_seo_paginate(news, 'twitter_bootstrap3_translated') }}
+        </div>
+
+        <div class="col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group paginator">
+                    {{ sylius_resource_paginate(news, [10,20,30]) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% for _news in news %}
+        <div class="row">
+            <div class="col-md-4 blog-img blog-tag-data">
+                {% thumbnail _news.image, 'small' with {'class': 'img-polaroid media-object'} %}
+            </div>
+            <div class="col-md-8 blog-article">
+                <h3>
+                    <a href="{{ path(_news) }}">
+                        {{ _news.title }}
+                    </a>
+                </h3>
+                <ul class="list-inline">
+                    <li>
+                        <i class="fa fa-calendar"></i>
+                        <a href="#">
+                            {{ _news.publicationDateStart | localizeddate('long', 'none') }}
+                        </a>
+                    </li>
+                    <li>
+                        <i class="fa fa-comments"></i>
+                        <a href="{{ path('positibe_news_news_show',{'slug':_news.slug}) }}#news_list_comments">
+                            {{ _news.commentsCount }} Comments
+                        </a>
+                    </li>
+                    <li>
+                        <i class="fa fa-eye"></i>
+                        {{ _news.countViews }} Views
+
+                    </li>
+                    <li>
+                        <i class="fa fa-tags"></i>
+
+                        {{ list_tags(_news.tags) }}
+                    </li>
+                </ul>
+
+                <p>
+                    {{ _news.abstract }}
+                </p>
+                <a href="{{ path('positibe_news_news_show', {'slug': _news.slug}) }}" class="btn btn-primary">
+                    Read more <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+        <hr>
+    {% endfor %}
+
+
+    <div class="row">
+        <div class="col-xs-9">
+            {{ pagerfanta(news, 'twitter_bootstrap3_translated', options|default({})) }}
+        </div>
+
+        <div class="col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group paginator">
+                    {{ sylius_resource_paginate(news, [10,20,30]) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

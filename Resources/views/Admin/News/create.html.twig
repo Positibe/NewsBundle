@@ -1,0 +1,21 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>News creation</h1>
+
+    <form action="{{ path('positibe_news_admin_news_create') }}" method="post" {{ form_enctype
+    (form) }}>
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+        {{ form_rest(form) }}
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="{{ path('positibe_news_admin_news_index') }}" class="btn btn-default">
+                Back to the list
+            </a>
+        </div>
+    </form>
+
+
+
+{% endblock -%}

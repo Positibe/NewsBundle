@@ -1,0 +1,28 @@
+positibe_news_news_show:
+    path: /{slug}
+    methods: [GET]
+    defaults:
+        _controller: positibe_news.controller.news:showAction
+        _positibe_seo:
+            type: resource
+        _sylius:
+            template: PositibeNewsBundle:News:show.html.twig
+            criteria:
+                slug: $slug
+
+positibe_news_news_index:
+    path: /
+    methods: [GET]
+    defaults:
+        _controller: positibe_news.controller.news:indexAction
+        _positibe_seo:
+            type: static
+            title: Lista de Noticias
+            metas:
+                keywords: juan, pepe, luis
+                description: Esto es algo que la verdad no me gusta
+        _sylius:
+            template: PositibeNewsBundle:News:index.html.twig
+            sortable: true
+            filterable: true
+            method: createFilterPaginator

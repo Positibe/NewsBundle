@@ -1,0 +1,50 @@
+positibe_news_comment_create:
+    path: /new
+    methods: [GET, POST]
+    defaults:
+        _controller: positibe_news.controller.comment:createAction
+        _sylius:
+            redirect:
+                route: positibe_news_comment_show
+                parameters: {id: resource.id}
+
+positibe_news_comment_show:
+    path: /{id}
+    methods: [GET]
+    defaults:
+        _controller: positibe_news.controller.comment:showAction
+        _sylius:
+            criteria:
+                id: $id
+
+positibe_news_comment_update:
+    path: /{id}/edit
+    methods: [GET, PUT]
+    defaults:
+        _controller: positibe_news.controller.comment:updateAction
+        _sylius:
+            criteria:
+                id: $id
+            redirect:
+                route: positibe_news_comment_show
+                parameters: {id: resource.id}
+
+positibe_news_comment_delete:
+    path: /{id}
+    methods: [DELETE]
+    defaults:
+        _controller: positibe_news.controller.comment:deleteAction
+        _sylius:
+            criteria:
+                id: $id
+            redirect:
+                route: positibe_news_comment_index
+                parameters: {}
+
+positibe_news_comment_index:
+    path: /
+    methods: [GET]
+    defaults:
+        _controller: positibe_news.controller.comment:indexAction
+        _sylius:
+            sortable: true

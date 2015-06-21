@@ -1,0 +1,10 @@
+services:
+    positibe_news.news_form_type:
+        class: Positibe\Bundle\NewsBundle\Form\Type\NewsType
+        tags:
+            - { name: form.type, alias: positibe_news_news }
+
+    positibe_news.comment_form_type:
+        class: Positibe\Bundle\NewsBundle\Form\Type\CommentFormType
+        tags:
+            - { name: form.type, alias: positibe_news_comment }

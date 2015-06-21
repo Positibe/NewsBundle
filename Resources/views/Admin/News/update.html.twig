@@ -1,0 +1,22 @@
+{% extends '::base.html.twig' %}
+
+    {% block body -%}
+        <h1>News edit</h1>
+
+        {{ form_start(form, {'action': path('positibe_news_admin_news_update', { 'slug': news.slug })}) }}
+            <input type="hidden" name="_method" value="PUT"/>
+            {{ form_row(form) }}
+            <button type="submit" class="btn btn-default">Submit</button>
+        {{ form_end(form) }}
+
+        <a class="btn btn-default" href="{{ path('positibe_news_admin_news_index') }}">
+            Back to the list
+        </a>
+        <form action="{{ path('positibe_news_admin_news_delete', { 'slug': news.slug }) }}" method="post">
+            <input type="hidden" name="_method" value="DELETE"/>
+            <button type="submit">
+                Delete
+            </button>
+        </form>
+
+    {% endblock %}

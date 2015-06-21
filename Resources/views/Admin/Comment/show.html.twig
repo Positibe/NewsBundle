@@ -1,0 +1,36 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Comment</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ comment.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('positibe_news_admin_comment_index') }}">
+            Back to the list
+        </a>
+    </li>
+        <li>
+        <a href="{{ path('positibe_news_admin_comment_update', { 'id': comment.id }) }}">
+            Edit
+        </a>
+    </li>
+            <li>
+        <form action="{{ path('positibe_news_admin_comment_delete', { 'id': comment.id }) }}" method="post">
+            <input type="hidden" name="_method" value="DELETE" />
+            <button type="submit">
+                Delete
+            </button>
+        </form>
+    </li>
+
+    </ul>
+{% endblock %}

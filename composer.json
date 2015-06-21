@@ -1,0 +1,38 @@
+{
+    "name": "positibe/news-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony PositibeNewsBundle",
+    "keywords": ["news","blog", "positibe", "positibelabs"],
+    "homepage": "http://positibelabs.blogspot.com/bundles/news",
+    "license": "Private",
+    "version": "0.0.0.1",
+    "authors": [
+        {
+            "name": "Pedro Carlos Abreu Jiménez",
+            "email": "pcabreus@gmail.com",
+            "homepage": "http://pcabreus.blogspot.com"
+        },
+        {
+            "name": "PositibeLabs Cooperative",
+            "homepage": "https://github.com/positibelabs"
+        }
+    ],
+    "require": {
+        "symfony/symfony": "~2.3",
+        "gedmo/doctrine-extensions": "~2.3",
+        "friendsofsymfony/rest-bundle": "dev-master",
+        "sylius/resource-bundle": "~0.12",
+        "egeloen/ckeditor-bundle": "~2.5",
+        "sonata-project/media-bundle": "~2.3",
+        "positibe/classification-bundle": "~0.0",
+        "twig/twig": "*"
+    },
+    "autoload": {
+        "psr-4": { "Positibe\\Bundle\\NewsBundle\\": "" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.0.x-dev"
+        }
+    }
+}

@@ -1,0 +1,42 @@
+    {% extends '::base.html.twig' %}
+
+    {% block body -%}
+    <h1>Comment list</h1>
+
+    <table class="records_list">
+        <thead>
+        <tr>
+                <th>Id</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for comment in comments %}
+        <tr>
+                    <td>
+                        <a href="{{ path('positibe_news_admin_comment_show', { 'id': comment.id }) }}">{{ comment.id }}</a>
+                    </td>
+                    <td><ul>
+
+    <li>
+        <a href="{{ path('positibe_news_admin_comment_show', { 'id': comment.id }) }}">Show</a>
+    </li>
+    <li>
+        <a href="{{ path('positibe_news_admin_comment_update', { 'id': comment.id }) }}">Edit</a>
+    </li>
+
+</ul>
+                    </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('positibe_news_admin_comment_create') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}
