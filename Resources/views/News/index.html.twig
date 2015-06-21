@@ -9,7 +9,7 @@
 
 {% block body -%}
     <h1>Últimas noticias</h1>
-    <form class="form-inline form-filter" action="{{ path(app.request.get('routeDocument')) }}" method="get">
+    <form class="form-inline form-filter" action="{#{{ path(app.request.get('routeDocument')) }}#}" method="get">
         <div class="form-group">
             <label for="criteria_title" class="sr-only control-label">Title</label>
             <input type="text" class=" form-control" placeholder="Title" name="criteria[title]"
