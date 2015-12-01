@@ -2,7 +2,7 @@
 
 namespace Positibe\Bundle\NewsBundle\Model;
 
-use Positibe\Bundle\SeoBundle\Extractor\SeoReadInterface;
+use Positibe\Bundle\SeoRouteBundle\Extractor\SeoReadInterface;
 use Positibe\Bundle\UniqueViewsBundle\Model\VisitableInterface;
 use Sonata\MediaBundle\Model\MediaInterface;
 

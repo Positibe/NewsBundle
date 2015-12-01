@@ -44,7 +44,7 @@
                 <cascade-all/>
             </cascade>
         </many-to-one>
-        <many-to-many field="routes" target-entity="Positibe\Bundle\SeoBundle\Entity\SeoRoute" inversed-by="content"
+        <many-to-many field="routes" target-entity="Positibe\Bundle\SeoRouteBundle\Entity\SeoRoute" inversed-by="content"
                       orphan-removal="true">
             <cascade>
                 <cascade-all/>
