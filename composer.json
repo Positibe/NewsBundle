@@ -20,7 +20,6 @@
     "require": {
         "symfony/symfony": "~2.3",
         "gedmo/doctrine-extensions": "~2.3",
-        "friendsofsymfony/rest-bundle": "dev-master",
         "sylius/resource-bundle": "~0.12",
         "egeloen/ckeditor-bundle": "~2.5",
         "sonata-project/media-bundle": "~2.3",
