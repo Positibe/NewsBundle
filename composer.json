@@ -22,7 +22,7 @@
         "gedmo/doctrine-extensions": "~2.3",
         "sylius/resource-bundle": "~0.12",
         "egeloen/ckeditor-bundle": "~2.5",
-        "sonata-project/media-bundle": "~2.3",
+        "positibe/orm-media-bundle": "~0.2",
         "positibe/classification-bundle": "~0.0",
         "twig/twig": "*"
     },
