@@ -1,0 +1,88 @@
+{% extends '@PositibeCmf/layout.html.twig' %}
+
+    {% from '@PositibeCmf/_macros.html.twig' import pagination %}
+    {% import '@PositibeCmf/_buttons.html.twig' as buttons %}
+
+    {% block title %}Categorías{% endblock %}
+    {% block subtitle %}Lista de categorías{% endblock %}
+    {% set menu_active = 'post' %}
+    {% set content_menu = 'post_collection' %}
+
+    {% block breadcrumb_list %}
+        <li>
+            <i class="fa fa-angle-right"></i>
+            <a href="{{ path('positibe_post_collection_index') }}">Categorías</a>
+        </li>
+    {% endblock %}
+
+    {% block content -%}
+        <form action="" method="get" id="form_post_collection_filter" name="criteria"></form>
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <p class="caption-subject font-green-sharp bold uppercase"><i class="fa fa-bookmark"></i> Categorías
+                    </p>
+                </div>
+                <div class="actions">
+                    <a href="{{ path('positibe_post_collection_create') }}"
+                       class="btn btn-sm btn-default btn-circle"><i
+                                class="fa
+        fa-plus"></i> Crear nuevo categoría</a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                {{ pagination(post_collections) }}
+                <table class="table table-striped table-bordered table-hover">
+                    <tr>
+                        <th style="width: 60px">No.</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th style="width: 95px">Acciones</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>
+                            <input class="input-sm form-control" form="form_post_collection_filter" name="criteria[name]"
+                                   value="{{ app.request.get('criteria').name | default() }}">
+                        </th>
+                        <th></th>
+                        <th>
+                            <div class="input-group-btn">
+                                <button class="btn btn-sm yellow filter-submit margin-bottom" type="submit"
+                                        form="form_post_collection_filter"><i
+                                            class="fa fa-search"></i> Filtrar
+                                </button>
+                            </div>
+                        </th>
+                    </tr>
+                    {% set count = post_collections.maxPerPage * (post_collections.currentPage - 1) %}
+                    {% for post_collection in post_collections %}
+                        <tr>
+                            <td>{{ count + loop.index }}</td>
+                            <td>
+                                <a href="{{ path('positibe_post_collection_update', { 'slug': post_collection.slug }) }}">{{ post_collection.name }}</a>
+                            </td>
+                            <td>{{ post_collection.description }}</td>
+                            <td>
+                                <div class="input-group">
+                                    <a class="btn btn-default btn-xs"
+                                       href="{{ path('positibe_post_collection_show', { 'slug': post_collection.slug }) }}"><i
+                                                class="fa fa-search"></i> Detalles</a>
+                                    <a class="btn btn-default btn-xs"
+                                       href="{{ path('positibe_post_collection_update', { 'slug': post_collection.slug }) }}"><i
+                                                class="fa fa-edit"></i> Editar</a>
+
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3">No hay elementos</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                {{ pagination(post_collections) }}
+            </div>
+        </div>
+
+    {% endblock %}

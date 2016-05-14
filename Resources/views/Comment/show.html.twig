@@ -1,36 +1,94 @@
-{% extends '::base.html.twig' %}
+{% extends '@PositibeCmf/layout.html.twig' %}
 
-{% block body -%}
-    <h1>Comment</h1>
+    {% block title %}Comentarios{% endblock %}
+    {% block subtitle %}{{ post_comment.id }}{% endblock %}
+    {% set menu_active = 'post' %}
+    {% set content_menu = 'post_comment' %}
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ comment.id }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('positibe_news_comment_index') }}">
-            Back to the list
-        </a>
-    </li>
+    {% block breadcrumb_list %}
         <li>
-        <a href="{{ path('positibe_news_comment_update', { 'id': comment.id }) }}">
-            Edit
-        </a>
-    </li>
-            <li>
-        <form action="{{ path('positibe_news_comment_delete', { 'id': comment.id }) }}" method="post">
-            <input type="hidden" name="_method" value="DELETE" />
-            <button type="submit">
-                Delete
-            </button>
-        </form>
-    </li>
+            <i class="fa fa-angle-right"></i>
+            <a href="{{ path('positibe_post_comment_index') }}">Comentarios</a>
+        </li>
+        <li>
+            <i class="fa fa-angle-right"></i>
+            {{ post_comment.id }}
+        </li>
+    {% endblock %}
 
-    </ul>
-{% endblock %}
+    {% block content -%}
+
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <p class="caption-subject font-green-sharp bold uppercase">
+                        <i class="fa fa-comments"></i> Comentario de la entrada: {{ post_comment.post.title }}
+                    </p>
+                </div>
+                <div class="actions">
+                    <a href="{{ path('positibe_post_comment_index') }}"
+                       name="back" class="btn btn-default btn-circle"><i class="fa fa-angle-left"></i> Atras</a>
+
+                    <a href="{{ path('positibe_post_comment_update', { 'id': post_comment.id }) }}"
+                       class="btn btn-default btn-circle">
+                        <i class="fa fa-edit"></i> Editar
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="tabbable">
+                    <ul class="nav nav-tabs nav-tabs-lg">
+                        <li class="active">
+                            <a href="#tab_1" data-toggle="tab" aria-expanded="true">
+                                Detalles </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_1">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <h4>Nombre</h4>
+
+                                    <p>{{ post_comment.name }}</p>
+                                    <h4>Correo</h4>
+
+                                    <p>{{ post_comment.email }}</p>
+                                    <h4>Sitio web</h4>
+
+                                    <p>{{ post_comment.url }}</p>
+                                    <h4>Mensaje</h4>
+
+                                    <p>{{ post_comment.message }}</p>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            Comentario: {{ post_comment.getStatusCode(post_comment.status) | trans }}
+                                        </div>
+                                        <div class="panel-body">
+                                            <h4>En respuesta a</h4>
+
+                                            <h5>
+                                                <a href="{{ path('positibe_post_show', {'name': post_comment.post.name}) }}">
+                                                    <i class="fa fa-newspaper-o"></i> {{ post_comment.post.title }}</a>
+                                            </h5>
+                                            <h4>Creado</h4>
+
+                                            <p>{{ post_comment.createdAt|date('Y-m-d H:i:s') }}</p><h4>
+                                                Última actualización</h4>
+
+                                            <p>{{ post_comment.updatedAt|date('Y-m-d H:i:s') }}</p>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endblock -%}

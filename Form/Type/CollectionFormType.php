@@ -5,30 +5,23 @@
 
 namespace Positibe\Bundle\NewsBundle\Form\Type;
 
-use Positibe\Bundle\NewsBundle\Entity\Comment;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 /**
- * Class CommentFormType
+ * Class CollectionFormType
  * @package Positibe\Bundle\NewsBundle\Form\Type
  */
-class CommentFormType extends AbstractType
+class CollectionFormType extends AbstractType
 {
-    /** @var  AuthorizationChecker */
-    protected $authorizationChecker;
+    private $locales;
 
-    public function __construct(AuthorizationChecker $authorizationChecker)
+    public function __construct($locales)
     {
-        $this->authorizationChecker = $authorizationChecker;
+        $this->locales = $locales;
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -40,35 +33,27 @@ class CommentFormType extends AbstractType
             )
           )
           ->add(
-            'email',
+            'description',
             null,
             array(
-              'label' => 'Correo'
+              'label' => 'Descripción'
             )
           )
           ->add(
-            'url',
-            null,
+            'locale',
+            'choice',
             array(
-              'label' => 'Sitio web'
+              'label' => 'Idioma',
+              'choices' => array_combine($this->locales, $this->locales)
             )
           )
-          ->add(
-            'message',
+          /*->add(
+            'enabled',
             null,
             array(
-              'label' => 'Comentario'
+              'label' => 'Habilitado'
             )
-          )
-        ;
-
-        if($this->authorizationChecker->isGranted('ROLE_MODERATOR'))
-        {
-            $builder->add('status', 'choice', array(
-                  'label' => 'Estado',
-                  'choices' => Comment::getStatusList()
-              ));
-        }
+          )*/;
     }
 
     /**
@@ -78,7 +63,7 @@ class CommentFormType extends AbstractType
     {
         $resolver->setDefaults(
           array(
-            'data_class' => 'Positibe\Bundle\NewsBundle\Entity\Comment'
+            'data_class' => 'Positibe\Bundle\NewsBundle\Entity\Collection'
           )
         );
     }
@@ -88,6 +73,6 @@ class CommentFormType extends AbstractType
      */
     public function getName()
     {
-        return 'positibe_post_comment';
+        return 'positibe_post_collection';
     }
 }

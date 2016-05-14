@@ -1,0 +1,12 @@
+approved: Aprobado
+rejected: Rechazado
+pending: Pendiente
+post:
+    form:
+        title_label: Título
+        body_label: Contenido
+        locale_label: Idioma
+        publishable_label: Publicar noticia
+        publish_start_label: Publicar a partir de
+        publish_end_label: Despublicar en
+        image_label: Portada

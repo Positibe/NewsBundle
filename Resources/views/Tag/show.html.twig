@@ -1,0 +1,56 @@
+    {% extends '@PositibeCmf/layout.html.twig' %}
+
+    {% block title %}Etiquetas{% endblock %}
+    {% block subtitle %}{{ post_tag.slug }}{% endblock %}
+    {% set menu_active = 'post' %}
+    {% set content_menu = 'post_tag' %}
+
+    {% block breadcrumb_list %}
+    <li>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ path('positibe_post_tag_index') }}">Etiquetas</a>
+    </li>
+    <li>
+        <i class="fa fa-angle-right"></i>
+        {{post_tag.name }}
+    </li>
+    {% endblock %}
+
+    {% block content -%}
+
+    <div class="portlet light">
+        <div class="portlet-title">
+            <div class="caption">
+                <p class="caption-subject font-green-sharp bold uppercase">
+                    <i class="fa fa-tags"></i> Etiqueta: {{post_tag.name }}
+                </p>
+            </div>
+            <div class="actions">
+                <a href="{{ path('positibe_post_tag_index') }}"
+                   name="back" class="btn btn-default btn-circle"><i class="fa fa-angle-left"></i> Atras</a>
+
+                <a href="{{ path('positibe_post_tag_update', { 'slug': post_tag.slug }) }}"
+                   class="btn btn-default btn-circle">
+                    <i class="fa fa-edit"></i> Editar
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="tabbable">
+                <ul class="nav nav-tabs nav-tabs-lg">
+                    <li class="active">
+                        <a href="#tab_1" data-toggle="tab" aria-expanded="true">
+                            Detalles </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_1">
+                    <h4>Nombre</h4>
+                        <p>{{ post_tag.name }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endblock -%}

@@ -1,7 +1,0 @@
-positibe_news_news:
-    resource: "@PositibeNewsBundle/Resources/config/routing/news.yml"
-    prefix:   /
-
-positibe_news_news_comment:
-    resource: "@PositibeNewsBundle/Resources/config/routing/comment.yml"
-    prefix:   /{slug}/comments

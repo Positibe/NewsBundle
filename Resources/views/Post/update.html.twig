@@ -1,0 +1,40 @@
+    {% extends '@PositibeCmf/layout.html.twig' %}
+
+    {% from '@PositibeCmf/_macros.html.twig' import delete_confirm %}
+
+    {% block title %}Entradas{% endblock %}
+    {% block subtitle %}Editar entradas{% endblock %}
+    {% set menu_active = 'post' %}
+    {% set content_menu = 'post' %}
+
+    {% block breadcrumb_list %}
+    <li>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ path('positibe_post_index') }}">Entradas</a>
+    </li>
+    <li>
+        <i class="fa fa-angle-right"></i>
+        {{ post.title }}
+    </li>
+    {% endblock %}
+
+    {% block content -%}
+
+    {{ form_start(form,{'attr': {'class': 'form-horizontal inbox-compose' }}) }}
+    <input type="hidden" name="_method" value="PUT"/>
+    {{ include('@PositibeNews/Post/_form.html.twig') }}
+    {{ form_end(form) }}
+    {{ delete_confirm('positibe_post_remove', path('positibe_post_delete', { 'name': post.name }) ) }}
+
+    {% endblock -%}
+{% block javascripts %}
+    <script>
+        jQuery('#positibe_post_locale').on('change', function (e) {
+            location.replace('{{ path('positibe_post_update', {'name': post.name}) }}?data_locale='
+            + $
+            (this)
+                    .val
+            ());
+        });
+    </script>
+{% endblock %}

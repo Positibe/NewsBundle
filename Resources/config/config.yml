@@ -1,0 +1,39 @@
+positibe_orm_routing:
+    controllers:
+        noticias:
+            _controller: [PositibeNewsBundle:News:list, {}]
+    auto_routing:
+        Positibe\Bundle\NewsBundle\Entity\Post:
+            uri_schema: /{category}/{title}
+            token_providers:
+                category: [content_method, { method: getCategoryName }]
+                title: [content_method, { method: getTitle }]
+#        Positibe\Bundle\NewsBundle\Entity\Collection:
+#            uri_schema: /{title}
+#            token_providers:
+#                title: [content_method, { method: getTitle }]
+
+liip_imagine:
+    filter_sets:
+        # define the filter to be used with the image preview
+        post_full:
+            filters:
+                thumbnail: { size: [945, 380], mode: outbound }
+        post_small:
+            filters:
+                thumbnail: { size: [245, 185], mode: outbound }
+
+stof_doctrine_extensions:
+    orm:
+        default:
+            blameable: true
+            sluggable: true
+            timestampable: true
+            translatable: true
+            sortable: true
+
+cmf_routing:
+    dynamic:
+        controllers_by_class:
+            # the order here matter
+            Positibe\Bundle\NewsBundle\Entity\Post: PositibeNewsBundle:News:index

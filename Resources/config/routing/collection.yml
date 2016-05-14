@@ -1,0 +1,50 @@
+positibe_post_collection_create:
+    path: /new
+    methods: [GET, POST]
+    defaults:
+        _controller: positibe.controller.post_collection:createAction
+        _sylius:
+            redirect:
+                route: positibe_post_collection_show
+                parameters: {slug: resource.slug}
+
+positibe_post_collection_show:
+    path: /{slug}
+    methods: [GET]
+    defaults:
+        _controller: positibe.controller.post_collection:showAction
+        _sylius:
+            criteria:
+                slug: $slug
+
+positibe_post_collection_update:
+    path: /{slug}/edit
+    methods: [GET, PUT]
+    defaults:
+        _controller: positibe.controller.post_collection:updateAction
+        _sylius:
+            criteria:
+                slug: $slug
+            redirect:
+                route: positibe_post_collection_show
+                parameters: {slug: resource.slug}
+
+positibe_post_collection_delete:
+    path: /{slug}
+    methods: [DELETE]
+    defaults:
+        _controller: positibe.controller.post_collection:deleteAction
+        _sylius:
+            criteria:
+                slug: $slug
+            redirect:
+                route: positibe_post_collection_index
+                parameters: {}
+
+positibe_post_collection_index:
+    path: /
+    methods: [GET]
+    defaults:
+        _controller: positibe.controller.post_collection:indexAction
+        _sylius:
+            sortable: true

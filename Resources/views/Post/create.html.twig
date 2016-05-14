@@ -1,0 +1,23 @@
+{% extends '@PositibeCmf/layout.html.twig' %}
+
+    {% block title %}Entradas{% endblock %}
+    {% block subtitle %}Crear nuevo entrada{% endblock %}
+    {% set menu_active = 'post' %}
+    {% set content_menu = 'post' %}
+
+    {% block breadcrumb_list %}
+        <li>
+            <i class="fa fa-angle-right"></i>
+            <a href="{{ path('positibe_post_index') }}">Entradas</a>
+        </li>
+        <li>
+            <i class="fa fa-angle-right"></i>
+            Nueva entrada
+        </li>
+    {% endblock %}
+
+    {% block content -%}
+        {{ form_start(form,{'attr': {'class': 'form-horizontal inbox-compose' }}) }}
+        {{ include('@PositibeNews/Post/_form.html.twig') }}
+        {{ form_end(form) }}
+    {% endblock -%}

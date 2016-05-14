@@ -1,42 +1,104 @@
-    {% extends '::base.html.twig' %}
+{% extends '@PositibeCmf/layout.html.twig' %}
 
-    {% block body -%}
-    <h1>Comment list</h1>
+    {% from '@PositibeCmf/_macros.html.twig' import pagination %}
+    {% import '@PositibeCmf/_buttons.html.twig' as buttons %}
 
-    <table class="records_list">
-        <thead>
-        <tr>
-                <th>Id</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for comment in comments %}
-        <tr>
-                    <td>
-                        <a href="{{ path('positibe_news_comment_show', { 'id': comment.id }) }}">{{ comment.id }}</a>
-                    </td>
-                    <td><ul>
+    {% block title %}Comentarios{% endblock %}
+    {% block subtitle %}Lista de comentarios{% endblock %}
+    {% set menu_active = 'post' %}
+    {% set content_menu = 'post_comment' %}
 
-    <li>
-        <a href="{{ path('positibe_news_comment_show', { 'id': comment.id }) }}">Show</a>
-    </li>
-    <li>
-        <a href="{{ path('positibe_news_comment_update', { 'id': comment.id }) }}">Edit</a>
-    </li>
-
-</ul>
-                    </td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <ul>
+    {% block breadcrumb_list %}
         <li>
-            <a href="{{ path('positibe_news_comment_create') }}">
-                Create a new entry
-            </a>
+            <i class="fa fa-angle-right"></i>
+            <a href="{{ path('positibe_post_comment_index') }}">Comentarios</a>
         </li>
-    </ul>
+    {% endblock %}
+
+    {% block content -%}
+        <form action="" method="get" id="form_post_comment_filter" name="criteria"></form>
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <p class="caption-subject font-green-sharp bold uppercase"><i class="fa fa-comments"></i>Comentarios
+                    </p>
+                </div>
+                <div class="actions">
+                    {#<a href="{{ path('positibe_post_comment_create') }}"#}
+                    {#class="btn btn-sm btn-default btn-circle"><i#}
+                    {#class="fa#}
+                    {#fa-plus"></i> Crear nuevo comentario</a>#}
+                </div>
+            </div>
+            <div class="portlet-body">
+                {{ pagination(post_comments) }}
+                <table class="table table-striped table-bordered table-hover">
+                    <tr>
+                        <th style="width: 60px">No.</th>
+                        <th style="width: 160px">Autor</th>
+                        <th>Comentario</th>
+                        <th>Entrada</th>
+                        <th>Estado</th>
+                        <th style="width: 95px">Acciones</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>
+                            <input class="input-sm form-control" form="form_post_comment_filter" name="criteria[author]"
+                                   value="{{ app.request.get('criteria').author | default() }}">
+                        </th>
+                        <th><input class="input-sm form-control" form="form_post_comment_filter" name="criteria[message]"
+                                   value="{{ app.request.get('criteria').message | default() }}">
+                        </th>
+                        <th>
+                            <input class="input-sm form-control" form="form_post_comment_filter" name="criteria[title]"
+                                   value="{{ app.request.get('criteria').title | default() }}">
+                        </th>
+                        <th></th>
+                        <th>
+                            <div class="input-group-btn">
+                                <button class="btn btn-sm yellow filter-submit margin-bottom" type="submit"
+                                        form="form_post_comment_filter"><i
+                                            class="fa fa-search"></i> Filtrar
+                                </button>
+                            </div>
+                        </th>
+                    </tr>
+                    {% set count = post_comments.maxPerPage * (post_comments.currentPage - 1) %}
+                    {% for post_comment in post_comments %}
+                        <tr>
+                            <td>{{ count + loop.index }}</td>
+                            <td>
+                                <a href="{{ path('positibe_post_comment_update', { 'id': post_comment.id }) }}">{{ post_comment.name }}</a><br>
+                                {{ post_comment.email }}<br>
+                                {{ post_comment.url }}
+                            </td>
+                            <td>{{ post_comment.message }}</td>
+                            <td><a href="{{ path('positibe_post_show', {'name': post_comment.post.name}) }}"><i class="fa fa-newspaper-o"></i> {{ post_comment.post }}</a></td>
+                            <td>
+                                <span class="label {{ post_comment.status == 1 ? 'label-success' : 'label-default' }}">{{ post_comment.getStatusCode(post_comment.status) | trans }}</span> <br>
+                                {% if post_comment.createdAt %}{{ post_comment.updatedAt|localizeddate('medium', 'none') }}{% endif %}
+                                <br>
+                            <td>
+                                <div class="input-group">
+                                    <a class="btn btn-default btn-xs"
+                                       href="{{ path('positibe_post_comment_show', { 'id': post_comment.id }) }}"><i
+                                                class="fa fa-search"></i> Detalles</a>
+                                    <a class="btn btn-default btn-xs"
+                                       href="{{ path('positibe_post_comment_update', { 'id': post_comment.id }) }}"><i
+                                                class="fa fa-edit"></i> Editar</a>
+
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="9">No hay elementos</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                {{ pagination(post_comments) }}
+            </div>
+        </div>
+
     {% endblock %}

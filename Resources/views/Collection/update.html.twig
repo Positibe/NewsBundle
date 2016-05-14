@@ -2,19 +2,19 @@
 
     {% from '@PositibeCmf/_macros.html.twig' import delete_confirm %}
 
-    {% block title %}Comentarios{% endblock %}
-    {% block subtitle %}Editar comentario{% endblock %}
+    {% block title %}Categorías{% endblock %}
+    {% block subtitle %}Editar categoría{% endblock %}
     {% set menu_active = 'post' %}
-    {% set content_menu = 'post_comment' %}
+    {% set content_menu = 'post_collection' %}
 
     {% block breadcrumb_list %}
         <li>
             <i class="fa fa-angle-right"></i>
-            <a href="{{ path('positibe_post_comment_index') }}">Comentarios</a>
+            <a href="{{ path('positibe_post_collection_index') }}">Categorías</a>
         </li>
         <li>
             <i class="fa fa-angle-right"></i>
-            {{ post_comment.id }}
+            {{ post_collection.name }}
         </li>
     {% endblock %}
 
@@ -28,16 +28,16 @@
             <div class="portlet-title tabbable-line">
                 <div class="caption">
                     <i class="icon-globe theme-font hide"></i>
-                    <span class="caption-subject font-green-sharp bold uppercase"><i class="fa  fa-comments"></i> Datos del comentario </span>
+                    <span class="caption-subject font-green-sharp bold uppercase"><i class="fa fa-bookmark"></i> Datos de la categoría</span>
                 </div>
                 <div class="actions btn-set">
-                    <a href="{{ path('positibe_post_comment_index') }}"
+                    <a href="{{ path('positibe_post_collection_index') }}"
                        name="back" class="btn btn-default btn-circle"><i class="fa fa-angle-left"></i> Atras</a>
                     <a href="{{ app.request.server.get('REQUEST_URI') }}" class="btn btn-default btn-circle "><i
                                 class="fa fa-reply"></i> Resetear</a>
                     <button class="btn green-haze btn-circle" type="submit"><i class="fa fa-check"></i> Guardar</button>
-                    {% if post_comment is defined and post_comment.id is not null %}
-                        <a class="btn red-haze btn-circle" data-toggle="modal" href="#positibe_post_comment_remove">
+                    {% if post_collection is defined and post_collection.id is not null %}
+                        <a class="btn red-haze btn-circle" data-toggle="modal" href="#positibe_post_collection_remove">
                             <i class="fa fa-trash"></i> Remover
                         </a>
                     {% endif %}
@@ -52,6 +52,9 @@
                             <a href="#form_congress_tab_basic" data-toggle="tab" aria-expanded="true">Información
                                 básica</a>
                         </li>
+                        <li class="pull-right">
+                            {{ form_widget(form.locale, {'attr': {'class': 'dropdown pull-right btn btn-circle' }}) }}
+                        </li>
                     </ul>
                     <div class="tab-content">
 
@@ -62,7 +65,7 @@
                 </div>
                 <div class="form-actions text-right">
                     <hr>
-                    <a href="{{ path('positibe_post_comment_index') }}" class="btn btn-default">Cancelar</a>
+                    <a href="{{ path('positibe_post_collection_index') }}" class="btn btn-default">Cancelar</a>
                     <button class="btn btn-primary"><i class="fa fa-check"></i> Guardar</button>
                 </div>
             </div>
@@ -70,6 +73,17 @@
 
 
         {{ form_end(form) }}
-        {{ delete_confirm('positibe_post_comment_remove', path('positibe_post_comment_delete', { 'id': post_comment.id }) ) }}
+        {{ delete_confirm('positibe_post_collection_remove', path('positibe_post_collection_delete', { 'slug': post_collection.slug }) ) }}
 
     {% endblock -%}
+{% block javascripts %}
+    <script>
+        jQuery('#positibe_post_collection_locale').on('change', function (e) {
+            location.replace('{{ path('positibe_post_collection_update', {'slug': post_collection.slug}) }}?data_locale='
+            + $
+            (this)
+                    .val
+            ());
+        });
+    </script>
+{% endblock %}

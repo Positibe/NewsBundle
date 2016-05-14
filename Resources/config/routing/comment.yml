@@ -1,13 +1,53 @@
-positibe_news_news_comment_create:
-    path: /new
+positibe_post_comment_create:
+    path: /{postName}/new
     methods: [GET, POST]
     defaults:
-        _controller: positibe_news.controller.comment:createAction
+        _controller: positibe.controller.post_comment:createAction
         _sylius:
-            template: PositibeNewsBundle:Comment:create.html.twig
-            redirect:
-                route: positibe_news_news_show
-                parameters: {slug: $slug}
             factory:
-                method: createNewComment
-                arguments: [$slug]
+                method: createByPostName
+                arguments: [$postName]
+            redirect:
+                route: positibe_post_comment_show
+                parameters: {id: resource.id}
+
+positibe_post_comment_show:
+    path: /{id}
+    methods: [GET]
+    defaults:
+        _controller: positibe.controller.post_comment:showAction
+        _sylius:
+            criteria:
+                id: $id
+
+positibe_post_comment_update:
+    path: /{id}/edit
+    methods: [GET, PUT]
+    defaults:
+        _controller: positibe.controller.post_comment:updateAction
+        _sylius:
+            criteria:
+                id: $id
+            redirect:
+                route: positibe_post_comment_show
+                parameters: {id: resource.id}
+
+positibe_post_comment_delete:
+    path: /{id}
+    methods: [DELETE]
+    defaults:
+        _controller: positibe.controller.post_comment:deleteAction
+        _sylius:
+            criteria:
+                id: $id
+            redirect:
+                route: positibe_post_comment_index
+                parameters: {}
+
+positibe_post_comment_index:
+    path: /
+    methods: [GET]
+    defaults:
+        _controller: positibe.controller.post_comment:indexAction
+        _sylius:
+            sortable: true

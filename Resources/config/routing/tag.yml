@@ -1,0 +1,50 @@
+positibe_post_tag_create:
+    path: /new
+    methods: [GET, POST]
+    defaults:
+        _controller: positibe.controller.post_tag:createAction
+        _sylius:
+            redirect:
+                route: positibe_post_tag_show
+                parameters: {slug: resource.slug}
+
+positibe_post_tag_show:
+    path: /{slug}
+    methods: [GET]
+    defaults:
+        _controller: positibe.controller.post_tag:showAction
+        _sylius:
+            criteria:
+                slug: $slug
+
+positibe_post_tag_update:
+    path: /{slug}/edit
+    methods: [GET, PUT]
+    defaults:
+        _controller: positibe.controller.post_tag:updateAction
+        _sylius:
+            criteria:
+                slug: $slug
+            redirect:
+                route: positibe_post_tag_show
+                parameters: {slug: resource.slug}
+
+positibe_post_tag_delete:
+    path: /{slug}
+    methods: [DELETE]
+    defaults:
+        _controller: positibe.controller.post_tag:deleteAction
+        _sylius:
+            criteria:
+                slug: $slug
+            redirect:
+                route: positibe_post_post_tag_index
+                parameters: {}
+
+positibe_post_tag_index:
+    path: /
+    methods: [GET]
+    defaults:
+        _controller: positibe.controller.post_tag:indexAction
+        _sylius:
+            sortable: true

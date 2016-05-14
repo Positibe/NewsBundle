@@ -1,0 +1,151 @@
+{% extends '@PositibeCmf/layout.html.twig' %}
+
+    {% block title %}Entradas{% endblock %}
+    {% block subtitle %}{{ post.name }}{% endblock %}
+    {% set menu_active = 'post' %}
+    {% set content_menu = 'post' %}
+
+    {% block breadcrumb_list %}
+        <li>
+            <i class="fa fa-angle-right"></i>
+            <a href="{{ path('positibe_post_index') }}">Entradas</a>
+        </li>
+        <li>
+            <i class="fa fa-angle-right"></i>
+            {{ post.title }}
+        </li>
+    {% endblock %}
+
+    {% block content -%}
+
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <p class="caption-subject font-green-sharp bold uppercase">
+                        <i class="glyphicon glyphicon-pushpin"></i> Entrada: {{ post.title }}
+                    </p>
+                </div>
+                <div class="actions">
+                    <a href="{{ path('positibe_post_index') }}"
+                       name="back" class="btn btn-default btn-circle"><i class="fa fa-angle-left"></i> Atras</a>
+
+                    <a href="{{ path('positibe_post_update', { 'name': post.name }) }}"
+                       class="btn btn-default btn-circle">
+                        <i class="fa fa-edit"></i> Editar
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="tabbable">
+                    <ul class="nav nav-tabs nav-tabs-lg">
+                        <li class="active">
+                            <a href="#tab_1" data-toggle="tab" aria-expanded="true">
+                                Detalles </a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_3" data-toggle="tab" aria-expanded="false"> Rutas <span
+                                        class="badge badge-{% if post.routes | length > 0 %}success{% else %}warning{% endif %}"> {{ post.routes | length }} </span></a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_1">
+                            <div class="col-sm-8">
+                                <h2>{{ post.title }}</h2>
+                                {% if post.image is not null %}
+                                    <img style="margin-bottom: 12px" class="img-responsive"
+                                         src="{{ cmf_media_display_url(post.image, {'imagine_filter': 'post_full'}) }}"
+                                         title="{{ post.image }}">
+                                {% endif %}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <ul class="list-inline">
+                                            <li>
+                                                <i class="fa fa-tags"></i>
+                                                {% for tag in post.tags %}
+                                                    {% if loop.index0 != 0 %}
+                                                        ,
+                                                    {% endif %}
+                                                    <a href="{{ path('positibe_post_tag_update', {'slug': tag.slug}) }}">{{ tag.name }}</a>
+                                                {% endfor %}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6 text-right">
+                                        <ul class="list-inline">
+                                            <li>
+                                                <i class="fa fa-calendar"></i>
+                                                {{ post.publishStartDate | localizeddate('long', 'none') }}
+                                            </li>
+                                            <li>
+                                                <a href="{{ path('positibe_post_comment_index', {'criteria': {'title': post.title }}) }}">
+                                                    <i class="fa fa-comments"></i> {{ post.comments | length }}
+                                                    Comentarios
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                {{ post.body | raw }}
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        Estado: {% if is_granted( 'VIEW', post) %}
+                                            <span class="text-success">
+                                                <strong>Publicado</strong>
+                                            </span>
+                                        {% else %}
+                                            <span class="text-danger">
+                                                <strong>Despublicado</strong>
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="panel-body">
+                                        {% if post.publishStartDate is not null %}
+                                            <h4>Fecha de publicación: </h4>
+
+                                            {{ post.publishStartDate | localizeddate('long', 'medium') }}
+                                        {% endif %}
+                                        {% if post.publishEndDate is not null %}
+                                            <h4>Despublicar el: </h4>
+
+                                            {{ post.publishEndDate | localizeddate('long', 'medium') }}
+                                        {% endif %}
+
+                                        <h4>Categoría</h4>
+                                        {{ post.collections | join(', ') }}
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab_3">
+                            <table class="table table-striped table-bordered table-hover no-footer">
+                                <tr class="heading">
+                                    <th>Nombre</th>
+                                    <th>Link permanente</th>
+                                    <th>Tema</th>
+                                    <th>Idioma</th>
+                                </tr>
+                                {% for route in post.routes %}
+                                    <tr>
+                                        <td>{{ route.name }}</td>
+                                        <td>{{ route.getPath() }}</td>
+                                        <td>{{ route.getDefault('_controller') | trans({}, 'PositibeOrmContentBundle') }}</td>
+                                        <td>{{ (route.getDefault('_locale') | default('es')) | trans({},'PositibeOrmContentBundle') }}</td>
+                                    </tr>
+
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4">Esta entrada no posee rutas</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endblock -%}
