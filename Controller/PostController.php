@@ -12,6 +12,7 @@ namespace Positibe\Bundle\NewsBundle\Controller;
 
 use Positibe\Bundle\NewsBundle\Entity\Post;
 use Positibe\Bundle\OrmMenuBundle\Model\MenuNodeReferrersInterface;
+use Sylius\Bundle\ResourceBundle\Controller\RequestConfiguration;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Symfony\Cmf\Bundle\SeoBundle\SeoAwareInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,12 +33,16 @@ class PostController extends ResourceController
      * @param array $criteria
      * @return object|void
      */
-    public function findOr404(Request $request, array $criteria = array())
+    /**
+     * @param RequestConfiguration $configuration
+     * @return Post|\Sylius\Component\Resource\Model\ResourceInterface
+     */
+    public function findOr404(RequestConfiguration $configuration)
     {
         /** @var Post $post */
-        $post = parent::findOr404($request, $criteria);
+        $post = parent::findOr404($configuration);;
 
-        if ($dataLocale = $request->get('data_locale')) {
+        if ($dataLocale = $configuration->getRequest()->get('data_locale')) {
             $post->setLocale($dataLocale);
 
             if ($post instanceof SeoAwareInterface && $seoMetadata = $post->getSeoMetadata()) {

@@ -24,7 +24,8 @@ use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
  *
  * @author Pedro Carlos Abreu <pcabreus@gmail.com>
  */
-class PostRepository extends EntityRepository implements HasRoutesRepositoryInterface {
+class PostRepository extends EntityRepository implements HasRoutesRepositoryInterface
+{
 
     private $locale;
 
@@ -49,6 +50,21 @@ class PostRepository extends EntityRepository implements HasRoutesRepositoryInte
         return $this->getQuery($qb)->getOneOrNullResult();
     }
 
+    public function findLastNews($count)
+    {
+        $qb = $this->createQueryBuilder('o')
+          ->addSelect('image', 'routes')
+          ->leftJoin('o.image', 'image')
+          ->leftJoin('o.routes', 'routes')
+          ->setMaxResults($count)->orderBy(
+          'o.publishStartDate',
+          'DESC'
+        );
+
+        return $this->getQuery($qb)->getResult();
+    }
+
+
     public function getQuery(QueryBuilder $qb)
     {
         $query = $qb->getQuery();
@@ -69,6 +85,7 @@ class PostRepository extends EntityRepository implements HasRoutesRepositoryInte
           Query::HINT_CUSTOM_OUTPUT_WALKER,
           'Positibe\\Bundle\\CmfBundle\\Doctrine\\Query\\TranslationWalker'
         );
+
         return $query;
     }
 } 

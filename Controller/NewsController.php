@@ -51,7 +51,12 @@ class NewsController extends Controller
         if ($contentDocument !== null) {
             $this->get('positibe_unique_views.views_counter')->count($contentDocument);
         }
-        $params = array('post' => $contentDocument);
+
+        $formComment = $this->createForm('positibe_post_comment', null, array(
+              'action' => $this->generateUrl('post_comment_create', array('postName' => $contentDocument->getName())),
+          ));
+
+        $params = array('post' => $contentDocument, 'formComment' => $formComment->createView());
 
 
         return $this->render($contentTemplate, $params);

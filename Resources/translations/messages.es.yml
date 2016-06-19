@@ -10,3 +10,12 @@ post:
         publish_start_label: Publicar a partir de
         publish_end_label: Despublicar en
         image_label: Portada
+news:
+    list:
+        comments: Comentarios
+        read_more: Leer más
+    index:
+        comments: Comentarios
+        comments_empty: No hay comentarios en esta entrada. Se el primero en comentar
+        send: Enviar
+        comment_form: Deja un comentario

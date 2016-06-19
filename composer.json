@@ -5,7 +5,7 @@
     "keywords": ["news","blog", "positibe", "positibelabs"],
     "homepage": "http://positibelabs.blogspot.com/bundles/news",
     "license": "Private",
-    "version": "0.1.0.0",
+    "version": "0.2.0.0",
     "authors": [
         {
             "name": "Pedro Carlos Abreu Jiménez",
@@ -18,12 +18,12 @@
         }
     ],
     "require": {
-        "symfony/symfony": "~2.3",
+        "symfony/framework-bundle": "~2.7",
         "gedmo/doctrine-extensions": "~2.3",
-        "sylius/resource-bundle": "~0.15",
-        "positibe/orm-content-bundle": "~0.3",
-        "positibe/cmf-bundle": "~0.3",
-        "positibe/classification-bundle": "~0.1",
+        "sylius/resource-bundle": "0.17.*",
+        "positibe/orm-content-bundle": "~0.4",
+        "positibe/cmf-bundle": "~0.4",
+        "positibe/classification-bundle": "~0.2",
         "positibe/unique-views-bundle": "~0.1",
         "twig/twig": "*"
     },
@@ -32,7 +32,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.1.x-dev"
+            "dev-master": "0.2.x-dev"
         }
     }
 }

@@ -1,0 +1,11 @@
+post_comment_create:
+    path: /{postName}/new
+    methods: [GET, POST]
+    defaults:
+        _controller: positibe.controller.post_comment:createAction
+        _sylius:
+            factory:
+                method: createByPostName
+                arguments: [$postName]
+            redirect:
+                route: referer

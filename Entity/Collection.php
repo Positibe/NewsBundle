@@ -5,6 +5,7 @@ namespace Positibe\Bundle\NewsBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Positibe\Bundle\ClassificationBundle\Model\Collection as BaseCollection;
+use Sylius\Component\Resource\Model\ResourceInterface;
 use Symfony\Cmf\Bundle\CoreBundle\Translatable\TranslatableInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -14,7 +15,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="positibe_news_collection")
  * @ORM\Entity
  */
-class Collection extends BaseCollection implements TranslatableInterface
+class Collection extends BaseCollection implements TranslatableInterface, ResourceInterface
 {
     /**
      * @var integer

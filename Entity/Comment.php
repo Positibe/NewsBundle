@@ -4,6 +4,8 @@ namespace Positibe\Bundle\NewsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Sylius\Component\Resource\Model\ResourceInterface;
+
 /**
  * Class Comment
  * @package Positibe\Bundle\NewsBundle\Entity
@@ -13,7 +15,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @author Pedro Carlos Abreu <pcabreus@gmail.com>
  */
-class Comment
+class Comment implements ResourceInterface
 {
     const STATUS_INVALID  = 0;
     const STATUS_VALID    = 1;

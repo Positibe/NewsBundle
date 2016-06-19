@@ -8,6 +8,7 @@ use Positibe\Bundle\OrmContentBundle\Entity\Abstracts\BaseContent;
 use Positibe\Bundle\OrmMediaBundle\Entity\Media;
 use Positibe\Bundle\UniqueViewsBundle\Model\VisitableInterface;
 use Positibe\Bundle\UniqueViewsBundle\Model\VisitableTrait;
+use Sylius\Component\Resource\Model\ResourceInterface;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -19,7 +20,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\EntityListeners({"Positibe\Bundle\OrmRoutingBundle\EventListener\AutoRoutingEntityListener"})
  */
-class Post extends BaseContent implements VisitableInterface
+class Post extends BaseContent implements VisitableInterface, ResourceInterface
 {
     use VisitableTrait;
 
