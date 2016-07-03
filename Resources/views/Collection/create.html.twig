@@ -48,6 +48,9 @@
                 <li class="active">
                     <a href="#form_congress_tab_basic" data-toggle="tab" aria-expanded="true">Información básica</a>
                 </li>
+                <li class="pull-right">
+                    {{ form_widget(form.locale, {'attr': {'class': 'dropdown pull-right btn btn-circle' }}) }}
+                </li>
             </ul>
             <div class="tab-content">
 

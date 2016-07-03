@@ -38,7 +38,7 @@ positibe_post_tag_delete:
             criteria:
                 slug: $slug
             redirect:
-                route: positibe_post_post_tag_index
+                route: positibe_post_tag_index
                 parameters: {}
 
 positibe_post_tag_index:
