@@ -4,7 +4,7 @@
     "description": "Symfony PositibeNewsBundle",
     "keywords": ["news","blog", "positibe", "positibelabs"],
     "homepage": "http://positibelabs.blogspot.com/bundles/news",
-    "license": "Private",
+    "license": "MIT",
     "version": "0.2.0.0",
     "authors": [
         {

@@ -18,7 +18,7 @@ sylius_resource:
             classes:
                 model: Positibe\Bundle\NewsBundle\Entity\Tag
                 controller: Positibe\Bundle\CmfBundle\Controller\TranslatableController
-                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                repository: Positibe\Bundle\NewsBundle\Entity\TagRepository
 
 
 #Servicio autogenerado por Pcabreus Generator 
@@ -28,7 +28,7 @@ sylius_resource:
             classes:
                 model: Positibe\Bundle\NewsBundle\Entity\Collection
                 controller: Positibe\Bundle\CmfBundle\Controller\TranslatableController
-                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                repository: Positibe\Bundle\NewsBundle\Entity\CollectionRepository
 
 
 

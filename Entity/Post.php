@@ -65,7 +65,7 @@ class Post extends BaseContent implements VisitableInterface, ResourceInterface
     /**
      * @var Comment[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post", cascade={"remove"}, fetch="EXTRA_LAZY")
      */
     protected $comments;
 
@@ -74,8 +74,8 @@ class Post extends BaseContent implements VisitableInterface, ResourceInterface
      *
      * @ORM\ManyToMany(targetEntity="Positibe\Bundle\OrmRoutingBundle\Entity\Route", orphanRemoval=TRUE, cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
      * @ORM\JoinTable(name="positibe_news_routes",
-     *      joinColumns={@ORM\JoinColumn(name="news_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="route_id", referencedColumnName="id", unique=true)}
+     *      joinColumns={@ORM\JoinColumn(name="news_id", referencedColumnName="id", onDelete="cascade")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="route_id", referencedColumnName="id", unique=true, onDelete="cascade")}
      * )
      */
     protected $routes;
@@ -83,7 +83,7 @@ class Post extends BaseContent implements VisitableInterface, ResourceInterface
     /**
      * @var ArrayCollection|Tag[]
      *
-     * @ORM\ManyToMany(targetEntity="Tag", cascade={"persist", "remove"}, fetch="EXTRA_LAZY", inversedBy="posts")
+     * @ORM\ManyToMany(targetEntity="Tag", cascade={"persist"}, fetch="EXTRA_LAZY", inversedBy="posts")
      * @ORM\JoinTable(name="positibe_news_tags")
      */
     protected $tags;
@@ -91,7 +91,7 @@ class Post extends BaseContent implements VisitableInterface, ResourceInterface
     /**
      * @var Collection[]|ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Collection",cascade={"persist", "remove"}, inversedBy="posts")
+     * @ORM\ManyToMany(targetEntity="Collection",cascade={"persist"}, inversedBy="posts")
      * @ORM\JoinTable(name="positibe_news_collections")
      */
     protected $collections;

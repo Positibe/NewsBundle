@@ -13,6 +13,7 @@ namespace Positibe\Bundle\NewsBundle\Entity;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Gedmo\Translatable\TranslatableListener;
+use Positibe\Bundle\CmfBundle\Repository\LocaleRepositoryTrait;
 use Positibe\Bundle\OrmContentBundle\Entity\Traits\PageRepositoryTrait;
 use Positibe\Bundle\OrmRoutingBundle\Entity\HasRoutesRepositoryInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
@@ -26,16 +27,7 @@ use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
  */
 class PostRepository extends EntityRepository implements HasRoutesRepositoryInterface
 {
-
-    private $locale;
-
-    /**
-     * @param mixed $locale
-     */
-    public function setLocale($locale)
-    {
-        $this->locale = $locale;
-    }
+    use LocaleRepositoryTrait;
 
     public function findOneByRoutes($route)
     {
@@ -57,35 +49,10 @@ class PostRepository extends EntityRepository implements HasRoutesRepositoryInte
           ->leftJoin('o.image', 'image')
           ->leftJoin('o.routes', 'routes')
           ->setMaxResults($count)->orderBy(
-          'o.publishStartDate',
-          'DESC'
-        );
+            'o.publishStartDate',
+            'DESC'
+          );
 
         return $this->getQuery($qb)->getResult();
-    }
-
-
-    public function getQuery(QueryBuilder $qb)
-    {
-        $query = $qb->getQuery();
-
-        if ($this->locale) {
-            $query->setHint(
-              TranslatableListener::HINT_TRANSLATABLE_LOCALE,
-              $this->locale // take locale from session or request etc.
-            );
-
-            $query->setHint(
-              TranslatableListener::HINT_FALLBACK,
-              1 // fallback to default values in case if record is not translated
-            );
-        }
-
-        $query->setHint(
-          Query::HINT_CUSTOM_OUTPUT_WALKER,
-          'Positibe\\Bundle\\CmfBundle\\Doctrine\\Query\\TranslationWalker'
-        );
-
-        return $query;
     }
 } 

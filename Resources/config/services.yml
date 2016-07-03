@@ -32,3 +32,7 @@ services:
         arguments: [@security.authorization_checker]
         tags:
             - { name: form.type, alias: positibe_post_comment }
+
+    positibe_news.post_comment_factory:
+        class: Positibe\Bundle\NewsBundle\Factory\CommentFactory
+        arguments: ["Positibe\\Bundle\\NewsBundle\\Entity\\Comment", @doctrine.orm.entity_manager]

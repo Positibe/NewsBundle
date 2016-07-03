@@ -12,6 +12,7 @@ namespace Positibe\Bundle\NewsBundle\Entity;
 
 use Doctrine\ORM\QueryBuilder;
 use Positibe\Bundle\CmfBundle\Repository\FilterRepository;
+use Positibe\Bundle\CmfBundle\Repository\LocaleRepositoryTrait;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -24,25 +25,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class CommentRepository extends EntityRepository
 {
-    public function createByPostName($postName)
-    {
-        if (!$post = $this->getEntityManager()->getRepository('PositibeNewsBundle:Post')->findOneBy(
-          array(
-            'name' => $postName
-          )
-        )
-        ) {
-            throw new NotFoundHttpException('No se encontró la entrada con nombre ' . $postName);
-        }
-        /** @var Comment $comment */
-        $comment = parent::createNew();
-
-        $comment->setPost($post);
-
-        return $comment;
-
-    }
-
     protected function applyCriteria(QueryBuilder $queryBuilder, array $criteria = array())
     {
         if (isset($criteria['author']) && !empty($criteria['author'])) {

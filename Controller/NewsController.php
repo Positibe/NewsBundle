@@ -72,7 +72,7 @@ class NewsController extends Controller
           $contentTemplate
         );
 
-        $posts = $this->get('positibe.repository.post')->createPaginator();
+        $posts = $this->get('positibe.repository.post')->createPaginator(array(), array('publishStartDate' => 'DESC'));
 
         $params = array('content' => $contentDocument, 'posts' => $posts);
 
