@@ -4,8 +4,8 @@ namespace Positibe\Bundle\NewsBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Positibe\Bundle\OrmContentBundle\Entity\Abstracts\BaseContent;
-use Positibe\Bundle\OrmMediaBundle\Entity\Media;
+use Positibe\Bundle\CmsBundle\Entity\BaseContent;
+use Positibe\Bundle\MediaBundle\Entity\Media;
 use Positibe\Bundle\UniqueViewsBundle\Model\VisitableInterface;
 use Positibe\Bundle\UniqueViewsBundle\Model\VisitableTrait;
 use Sylius\Component\Resource\Model\ResourceInterface;
@@ -18,7 +18,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="positibe_news")
  * @ORM\Entity
  *
- * @ORM\EntityListeners({"Positibe\Bundle\OrmRoutingBundle\EventListener\AutoRoutingEntityListener"})
+ * @ORM\EntityListeners({"Positibe\Bundle\CmfRoutingExtraBundle\EventListener\RoutingAutoEntityListener"})
  */
 class Post extends BaseContent implements VisitableInterface, ResourceInterface
 {
@@ -36,7 +36,7 @@ class Post extends BaseContent implements VisitableInterface, ResourceInterface
     /**
      * @var Media
      *
-     * @ORM\ManyToOne(targetEntity="Positibe\Bundle\OrmMediaBundle\Entity\Media", cascade="all")
+     * @ORM\ManyToOne(targetEntity="Positibe\Bundle\MediaBundle\Entity\Media", cascade="all")
      */
     protected $image;
 
@@ -72,7 +72,7 @@ class Post extends BaseContent implements VisitableInterface, ResourceInterface
     /**
      * @var ArrayCollection|RouteObjectInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="Positibe\Bundle\OrmRoutingBundle\Entity\Route", orphanRemoval=TRUE, cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
+     * @ORM\ManyToMany(targetEntity="Positibe\Bundle\CmfRoutingExtraBundle\Entity\AutoRoute", orphanRemoval=TRUE, cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
      * @ORM\JoinTable(name="positibe_news_routes",
      *      joinColumns={@ORM\JoinColumn(name="news_id", referencedColumnName="id", onDelete="cascade")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="route_id", referencedColumnName="id", unique=true, onDelete="cascade")}
@@ -294,4 +294,21 @@ class Post extends BaseContent implements VisitableInterface, ResourceInterface
 
         return $this;
     }
+
+    /**
+     * @return boolean
+     */
+    public function isCommentsEnabled()
+    {
+        return $this->commentsEnabled;
+    }
+
+    /**
+     * @param boolean $commentsEnabled
+     */
+    public function setCommentsEnabled($commentsEnabled)
+    {
+        $this->commentsEnabled = $commentsEnabled;
+    }
+
 }

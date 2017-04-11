@@ -1,73 +1,14 @@
-    {% extends '@PositibeCmf/layout.html.twig' %}
+{% set extends = 'admin.html.twig' %}
+{% set icon = 'fa fa-folder-o' %}
+{% set menu_active = 'post' %}
 
-    {% block title %}Categorías{% endblock %}
-    {% block subtitle %}Crear nueva categoría{% endblock %}
-    {% set menu_active = 'post' %}
-    {% set content_menu = 'post_collection' %}
-
-    {% block breadcrumb_list %}
-    <li>
-        <i class="fa fa-angle-right"></i>
-        <a href="{{ path('positibe_post_collection_index') }}">Categorías</a>
-    </li>
-    <li>
-        <i class="fa fa-angle-right"></i>
-        Nueva categoría
-    </li>
-    {% endblock %}
-
-    {% block content -%}
-
-    {{ form_start(form,{'attr': {'class': 'form-horizontal inbox-compose' }}) }}
-    {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
-
-<div class="portlet light ">
-    <div class="portlet-title tabbable-line">
-        <div class="caption">
-            <i class="icon-globe theme-font hide"></i>
-            <span class="caption-subject font-green-sharp bold uppercase"><i class="fa fa-bookmark"></i> Datos de la categoría </span>
-        </div>
-        <div class="actions btn-set">
-            <a href="{{ path('positibe_post_collection_index') }}"
-               name="back" class="btn btn-default btn-circle"><i class="fa fa-angle-left"></i> Atras</a>
-            <a href="{{ app.request.server.get('REQUEST_URI') }}" class="btn btn-default btn-circle "><i
-                        class="fa fa-reply"></i> Resetear</a>
-            <button class="btn green-haze btn-circle" type="submit"><i class="fa fa-check"></i> Guardar</button>
-            {% if post_collection is defined and post_collection.id is not null %}
-                <a class="btn red-haze btn-circle" data-toggle="modal" href="#positibe_post_collection_remove">
-                    <i class="fa fa-trash"></i> Remover
-                </a>
-            {% endif %}
-        </div>
-
-    </div>
-    <div class="portlet-body">
-        <div class="tabbable">
-
-            <ul class="nav nav-tabs">
-                <li class="active">
-                    <a href="#form_congress_tab_basic" data-toggle="tab" aria-expanded="true">Información básica</a>
-                </li>
-                <li class="pull-right">
-                    {{ form_widget(form.locale, {'attr': {'class': 'dropdown pull-right btn btn-circle' }}) }}
-                </li>
-            </ul>
-            <div class="tab-content">
-
-                <div class="tab-pane active" id="form_congress_tab_basic">
-                    {{ form_widget(form) }}
-                </div>
+{% embed '@PositibeCore/Grid/create.html.twig' %}
+    {% block content_form %}
+        <div class="row">
+            <div class="col-md-9 mb-1">
+                {{ form_row(form.name) }}
+                {{ form_row(form.description) }}
             </div>
         </div>
-        <div class="form-actions text-right">
-            <hr>
-            <a href="{{ path('positibe_post_collection_index') }}" class="btn btn-default">Cancelar</a>
-            <button class="btn btn-primary"><i class="fa fa-check"></i> Guardar</button>
-        </div>
-    </div>
-</div>
-
-
-    {{ form_end(form) }}
-
-    {% endblock -%}
+    {% endblock %}
+{% endembed %}

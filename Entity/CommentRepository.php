@@ -11,10 +11,8 @@
 namespace Positibe\Bundle\NewsBundle\Entity;
 
 use Doctrine\ORM\QueryBuilder;
-use Positibe\Bundle\CmfBundle\Repository\FilterRepository;
-use Positibe\Bundle\CmfBundle\Repository\LocaleRepositoryTrait;
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Positibe\Bundle\CoreBundle\Repository\EntityRepository;
+use Positibe\Bundle\CoreBundle\Repository\FilterRepository;
 
 
 /**

@@ -10,8 +10,11 @@
 
 namespace Positibe\Bundle\NewsBundle\Controller;
 
+use Positibe\Bundle\NewsBundle\Form\Type\CommentFormType;
+use Positibe\Bundle\UniqueViewsBundle\Model\VisitableInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 
 /**
@@ -32,51 +35,62 @@ class NewsController extends Controller
      *
      * @param Request $request
      * @param object $contentDocument
-     * @param string $contentTemplate Symfony path of the template to render
+     * @param string $template Symfony path of the template to render
      *                                 the content document. If omitted, the
      *                                 default template is used.
      *
      * @return Response
      */
-    public function indexAction(Request $request, $contentDocument, $contentTemplate = null)
+    public function indexAction(Request $request, $contentDocument, $template = null)
     {
-        $contentTemplate = $contentTemplate ?: 'post/index.html.twig';
+        $template = $template ?: 'post/index.html.twig';
 
-        $contentTemplate = str_replace(
-          array('{_format}', '{_locale}'),
-          array($request->getRequestFormat(), $request->getLocale()),
-          $contentTemplate
+        $template = str_replace(
+            ['{_format}', '{_locale}'],
+            [$request->getRequestFormat(), $request->getLocale()],
+            $template
         );
 
-        if ($contentDocument !== null) {
+        if ($contentDocument instanceof VisitableInterface) {
             $this->get('positibe_unique_views.views_counter')->count($contentDocument);
         }
 
-        $formComment = $this->createForm('positibe_post_comment', null, array(
-              'action' => $this->generateUrl('post_comment_create', array('postName' => $contentDocument->getName())),
-          ));
-
-        $params = array('post' => $contentDocument, 'formComment' => $formComment->createView());
-
-
-        return $this->render($contentTemplate, $params);
-    }
-
-    public function listAction(Request $request, $contentDocument, $contentTemplate = null)
-    {
-        $contentTemplate = $contentTemplate ?: 'post/list.html.twig';
-
-        $contentTemplate = str_replace(
-          array('{_format}', '{_locale}'),
-          array($request->getRequestFormat(), $request->getLocale()),
-          $contentTemplate
+        $formComment = $this->createForm(
+            CommentFormType::class,
+            null,
+            ['action' => $this->generateUrl('post_comment_create', ['postName' => $contentDocument->getName()]),]
         );
 
-        $posts = $this->get('positibe.repository.post')->createPaginator(array(), array('publishStartDate' => 'DESC'));
-
-        $params = array('content' => $contentDocument, 'posts' => $posts);
+        $params = ['post' => $contentDocument, 'formComment' => $formComment->createView()];
 
 
-        return $this->render($contentTemplate, $params);
+        return $this->render($template, $params);
+    }
+
+    /**
+     * @param Request $request
+     * @param $contentDocument
+     * @param null $template
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function listAction(Request $request, $contentDocument, $template = null)
+    {
+        $template = $template ?: 'post/list.html.twig';
+
+        $template = str_replace(
+            ['{_format}', '{_locale}'],
+            [$request->getRequestFormat(), $request->getLocale()],
+            $template
+        );
+
+        $posts = $this->get('positibe.repository.post')->createPaginator(
+            ['state' => 'published'],
+            ['publishStartDate' => 'DESC']
+        );
+
+        $params = ['content' => $contentDocument, 'posts' => $posts];
+
+
+        return $this->render($template, $params);
     }
 } 

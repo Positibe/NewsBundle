@@ -2,9 +2,13 @@
 
 namespace Positibe\Bundle\NewsBundle\Entity;
 
+use AppBundle\Entity\User;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Positibe\Component\Publishable\Entity\StatePublishableTrait;
 use Sylius\Component\Resource\Model\ResourceInterface;
+use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishableReadInterface;
 
 /**
  * Class Comment
@@ -15,11 +19,9 @@ use Sylius\Component\Resource\Model\ResourceInterface;
  *
  * @author Pedro Carlos Abreu <pcabreus@gmail.com>
  */
-class Comment implements ResourceInterface
+class Comment implements ResourceInterface, PublishableReadInterface
 {
-    const STATUS_INVALID  = 0;
-    const STATUS_VALID    = 1;
-    const STATUS_MODERATED = 2;
+    use StatePublishableTrait;
 
     /**
      * @var integer
@@ -82,15 +84,6 @@ class Comment implements ResourceInterface
     protected $updatedAt;
 
     /**
-     * Moderation status
-     *
-     * @var int
-     *
-     * @ORM\Column(name="status", type="integer")
-     */
-    protected $status = self::STATUS_VALID;
-
-    /**
      * News for which the comment is related to
      *
      * @var Post
@@ -99,11 +92,37 @@ class Comment implements ResourceInterface
      */
     protected $post;
 
+    /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     */
+    protected $user;
+    /**
+     * @var Comment
+     *
+     * @ORM\ManyToOne(targetEntity="Comment", inversedBy="children")
+     */
+    protected $parent;
+
+    /**
+     * @var Comment[]| ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="parent")
+     */
+    protected $children;
+
+    public function __construct()
+    {
+        $this->children = new ArrayCollection();
+    }
+
+
+
     public function getId()
     {
         return $this->id;
     }
-
 
     /**
      * {@inheritdoc}
@@ -201,47 +220,10 @@ class Comment implements ResourceInterface
         return $this->updatedAt;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function getStatusList()
-    {
-        return array(
-            self::STATUS_MODERATED => 'pending',
-            self::STATUS_INVALID => 'rejected',
-            self::STATUS_VALID   => 'approved',
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getStatusCode()
-    {
-        $status = self::getStatusList();
-
-        return isset($status[$this->getStatus()]) ? $status[$this->getStatus()] : null;
-    }
 
     public function preUpdate()
     {
         $this->setUpdatedAt(new \DateTime);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getStatus()
-    {
-        return $this->status;
     }
 
     /**
@@ -266,5 +248,75 @@ class Comment implements ResourceInterface
     public function __toString()
     {
         return $this->getName() ?: 'n-a';
+    }
+
+    /**
+     * @return Comment
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * @param Comment $parent
+     */
+    public function setParent($parent)
+    {
+        $this->parent = $parent;
+    }
+
+    /**
+     * @return Comment[]
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * @param Comment[] $children
+     */
+    public function setChildren($children)
+    {
+        $this->children = $children;
+    }
+
+    /**
+     * @param $child
+     * @return $this
+     */
+    public function addChild($child)
+    {
+        $this->children[] = $child;
+
+        return $this;
+    }
+
+    /**
+     * @param $child
+     * @return $this
+     */
+    public function removeChildren($child)
+    {
+        $this->children->removeElement($child);
+
+        return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
     }
 }

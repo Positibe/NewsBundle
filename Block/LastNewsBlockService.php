@@ -11,11 +11,11 @@
 namespace Positibe\Bundle\NewsBundle\Block;
 
 use Positibe\Bundle\NewsBundle\Entity\PostRepository;
-use Sonata\BlockBundle\Block\BaseBlockService;
 use Sonata\BlockBundle\Block\BlockContextInterface;
+use Sonata\BlockBundle\Block\Service\AbstractBlockService;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
 /**
@@ -24,7 +24,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  *
  * @author Pedro Carlos Abreu <pcabreus@gmail.com>
  */
-class LastNewsBlockService extends BaseBlockService
+class LastNewsBlockService extends AbstractBlockService
 {
     protected $template = 'PositibeNewsBundle:Block:block_last_news.html.twig';
     protected $postRepository;
@@ -69,7 +69,7 @@ class LastNewsBlockService extends BaseBlockService
     /**
      * {@inheritdoc}
      */
-    public function setDefaultSettings(OptionsResolverInterface $resolver)
+    public function configureSettings(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
           array(
@@ -89,6 +89,6 @@ class LastNewsBlockService extends BaseBlockService
 
     public function getCacheKeys(BlockInterface $block)
     {
-        return array('type' => $block->getType());
+        return ['type' => $block->getType()];
     }
 } 

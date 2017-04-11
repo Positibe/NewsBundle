@@ -7,8 +7,9 @@ namespace Positibe\Bundle\NewsBundle\Form\Type;
 
 use Positibe\Bundle\NewsBundle\Entity\Comment;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 /**
@@ -32,61 +33,63 @@ class CommentFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-          ->add(
-            'name',
-            null,
-            array(
-              'label' => 'Nombre'
+            ->add(
+                'name',
+                null,
+                array(
+                    'label' => 'post_comment.form.name_label',
+                )
             )
-          )
-          ->add(
-            'email',
-            null,
-            array(
-              'label' => 'Correo'
+            ->add(
+                'email',
+                null,
+                array(
+                    'label' => 'post_comment.form.email_label',
+                )
             )
-          )
-          ->add(
-            'url',
-            null,
-            array(
-              'label' => 'Sitio web'
+            ->add(
+                'url',
+                null,
+                array(
+                    'label' => 'post_comment.form.url_label',
+                )
             )
-          )
-          ->add(
-            'message',
-            null,
-            array(
-              'label' => 'Comentario'
-            )
-          )
-        ;
+            ->add(
+                'message',
+                null,
+                array(
+                    'label' => 'post_comment.form.message_label',
+                )
+            );
 
-        if($this->authorizationChecker->isGranted('ROLE_MODERATOR'))
-        {
-            $builder->add('status', 'choice', array(
-                  'label' => 'Estado',
-                  'choices' => Comment::getStatusList()
-              ));
+        if ($this->authorizationChecker->isGranted('ROLE_MODERATOR')) {
+            $builder->add(
+                'status',
+                ChoiceType::class,
+                array(
+                    'label' => 'post_comment.form.status_label',
+                    'choices' => Comment::getStatusList(),
+                )
+            );
         }
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-          array(
-            'data_class' => 'Positibe\Bundle\NewsBundle\Entity\Comment'
-          )
+            array(
+                'data_class' => 'Positibe\Bundle\NewsBundle\Entity\Comment',
+            )
         );
     }
 
     /**
      * @return string
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'positibe_post_comment';
     }

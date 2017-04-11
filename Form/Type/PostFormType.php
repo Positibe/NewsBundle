@@ -5,9 +5,12 @@
 
 namespace Positibe\Bundle\NewsBundle\Form\Type;
 
+use Positibe\Bundle\ClassificationBundle\Form\Type\TagFormType;
+use Positibe\Bundle\CmsBundle\Form\Type\BaseContentType;
+use Positibe\Bundle\MediaBundle\Form\Type\ImageType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class PostFormType
@@ -22,59 +25,70 @@ class PostFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-          ->add(
-            'featured',
-            null,
-            array(
-              'label' => 'Noticia destacada',
-              'required' => false,
+            ->add(
+                'featured',
+                null,
+                array(
+                    'label' => 'post.form.featured_label',
+                    'required' => false,
+                )
             )
-          )
-          ->add(
-            'tags',
-            'positibe_tag',
-            array(
-              'label' => 'Etiquetas',
-              'class_name' => 'Positibe\Bundle\NewsBundle\Entity\Tag'
+            ->add(
+                'commentsEnabled',
+                null,
+                array(
+                    'label' => 'post.form.commentsEnabled_label',
+                    'required' => false,
+                )
             )
-          )
-          ->add(
-            'collections',
-            null,
-            array(
-              'label' => 'Categoría',
-              'attr' => array(
-//                                  'class' => 'chosen-select'
-              ),
-              'empty_value' => '-- Eliga una categoría --',
-              'multiple' => true,
-              'expanded' => true
+            ->add(
+                'tags',
+                TagFormType::class,
+                array(
+                    'label' => 'post.form.tags_label',
+                    'class_name' => 'Positibe\Bundle\NewsBundle\Entity\Tag',
+                )
             )
-          );
+            ->add(
+                'image',
+                ImageType::class,
+                [
+                    'label' => 'post.form.image_label',
+                ]
+            )
+            ->add(
+                'collections',
+                null,
+                array(
+                    'label' => 'post.form.collection_label',
+                    'multiple' => true,
+                    'expanded' => true,
+                )
+            );
     }
 
     public function getParent()
     {
-        return 'positibe_abstract_page';
+        return BaseContentType::class;
     }
 
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-          array(
-            'data_class' => 'Positibe\Bundle\NewsBundle\Entity\Post'
-          )
+            array(
+                'data_class' => 'Positibe\Bundle\NewsBundle\Entity\Post',
+            )
         );
     }
 
     /**
      * @return string
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'positibe_post';
     }

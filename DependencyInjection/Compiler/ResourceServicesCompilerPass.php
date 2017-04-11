@@ -30,29 +30,19 @@ class ResourceServicesCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $container->getDefinition('positibe.repository.post')
-          ->addMethodCall(
-            'setRequestStack',
-            [new Reference('request_stack')]
-          );
-        $container->getDefinition('positibe.repository.post_collection')
-          ->addMethodCall(
-            'setRequestStack',
-            [new Reference('request_stack')]
-          );
+        $repositories = [
+            'positibe.repository.post_tag',
+            'positibe.repository.post_collection',
+            'positibe.repository.post',
+        ];
 
-        $container->getDefinition('positibe.repository.post_tag')
-          ->addMethodCall(
-            'setRequestStack',
-            [new Reference('request_stack')]
-          );
-
-        //Overriding defaults factories
-        $container->setDefinition(
-          'positibe.factory.post_comment',
-          $container->getDefinition('positibe_news.post_comment_factory')
-        );
-
+        foreach ($repositories as $repository) {
+            $container->getDefinition($repository)
+                ->addMethodCall(
+                    'setRequestStack',
+                    [new Reference('request_stack')]
+                );
+        }
     }
 
 } 

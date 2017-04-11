@@ -1,40 +1,38 @@
-    {% extends '@PositibeCmf/layout.html.twig' %}
+{% set extends = 'admin.html.twig' %}
+{% set icon = 'fa fa-thumb-tack' %}
 
-    {% from '@PositibeCmf/_macros.html.twig' import delete_confirm %}
+{% embed '@PositibeCore/Grid/update.html.twig' %}
+    {% block actions %}
+        {{ parent() }}
+        {% if post is defined and post.id is not null %}
+            {% for state in workflow_transitions(post) %}
+                {% if state.name == 'unpublish' and workflow_can(post, 'unpublish') -%}
+                    <button type="submit" name="transition" value="unpublish" class="btn btn-sm"><i
+                                class="fa fa-eye-slash"></i> {{ 'post.transition.unpublish' | trans }}
+                    </button>
+                {% elseif state.name == 'publish' and workflow_can(post, 'publish') -%}
+                    <button type="submit" name="transition" value="{{ 'publish' }}" class="btn btn-primary"><i
+                                class="fa fa-eye"></i> {{ 'post.transition.publish' | trans }}
+                    </button>
+                {%- else -%}
+                    <button type="submit" name="transition" value="{{ state.name }}" class="btn btn-sm"><i
+                                class="fa fa-eye"></i> {{ ('post.transition.' ~ state.name) | trans }}
+                    </button>
+                {%- endif -%}
+            {% endfor %}
 
-    {% block title %}Entradas{% endblock %}
-    {% block subtitle %}Editar entradas{% endblock %}
-    {% set menu_active = 'post' %}
-    {% set content_menu = 'post' %}
-
-    {% block breadcrumb_list %}
-    <li>
-        <i class="fa fa-angle-right"></i>
-        <a href="{{ path('positibe_post_index') }}">Entradas</a>
-    </li>
-    <li>
-        <i class="fa fa-angle-right"></i>
-        {{ post.title }}
-    </li>
+        {% endif %}
     {% endblock %}
 
-    {% block content -%}
+    {% block content_form %}
+        {{ include('@PositibeNews/Post/_form.html.twig') }}
+    {% endblock %}
 
-    {{ form_start(form,{'attr': {'class': 'form-horizontal inbox-compose' }}) }}
-    <input type="hidden" name="_method" value="PUT"/>
-    {{ include('@PositibeNews/Post/_form.html.twig') }}
-    {{ form_end(form) }}
-    {{ delete_confirm('positibe_post_remove', path('positibe_post_delete', { 'name': post.name }) ) }}
-
-    {% endblock -%}
-{% block javascripts %}
-    <script>
-        jQuery('#positibe_post_locale').on('change', function (e) {
-            location.replace('{{ path('positibe_post_update', {'name': post.name}) }}?data_locale='
-            + $
-            (this)
-                    .val
-            ());
-        });
-    </script>
-{% endblock %}
+    {% block javascripts %}
+        <script>
+            jQuery('#positibe_post_locale').on('change', function (e) {
+                location.replace('{{ path('positibe_post_update', {'id': post.id}) }}?data_locale=' + $(this).val());
+            });
+        </script>
+    {% endblock %}
+{% endembed %}

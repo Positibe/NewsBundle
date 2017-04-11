@@ -24,5 +24,8 @@ class PositibeNewsExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
+        $container->getDefinition('positibe.factory.post_comment')
+            ->addMethodCall('setDefaultState', array($config['default_state']));
     }
 }

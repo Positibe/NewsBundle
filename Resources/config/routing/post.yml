@@ -1,50 +1,11 @@
-positibe_post_create:
-    path: /new
-    methods: [GET, POST]
-    defaults:
-        _controller: positibe.controller.post:createAction
-        _sylius:
-            redirect:
-                route: positibe_post_show
-                parameters: {name: resource.name}
+positibe_post_crud:
+    resource: |
+        alias: positibe.post
+        templates: PositibeNewsBundle:Post
+        redirect: update
+    type: sylius.resource
 
-positibe_post_show:
-    path: /{name}
-    methods: [GET]
-    defaults:
-        _controller: positibe.controller.post:showAction
-        _sylius:
-            criteria:
-                name: $name
 
-positibe_post_update:
-    path: /{name}/edit
-    methods: [GET, PUT]
-    defaults:
-        _controller: positibe.controller.post:updateAction
-        _sylius:
-            criteria:
-                name: $name
-            redirect:
-                route: positibe_post_show
-                parameters: {name: resource.name}
-
-positibe_post_delete:
-    path: /{name}
-    methods: [DELETE]
-    defaults:
-        _controller: positibe.controller.post:deleteAction
-        _sylius:
-            criteria:
-                name: $name
-            redirect:
-                route: positibe_post_index
-                parameters: {}
-
-positibe_post_index:
-    path: /
-    methods: [GET]
-    defaults:
-        _controller: positibe.controller.post:indexAction
-        _sylius:
-            sortable: true
+positibe_admin_post_iframe:
+    path: /posts_iframe/{id}
+    defaults: { _controller: "positibe.controller.post:iframeAction" }

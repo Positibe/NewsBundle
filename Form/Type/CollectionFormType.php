@@ -6,8 +6,9 @@
 namespace Positibe\Bundle\NewsBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class CollectionFormType
@@ -25,53 +26,48 @@ class CollectionFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-          ->add(
-            'name',
-            null,
-            array(
-              'label' => 'Nombre'
+            ->add(
+                'name',
+                null,
+                array(
+                    'label' => 'post_collection.form.name_label',
+                )
             )
-          )
-          ->add(
-            'description',
-            null,
-            array(
-              'label' => 'Descripción'
-            )
-          )
-          ->add(
-            'locale',
-            'choice',
-            array(
-              'label' => 'Idioma',
-              'choices' => array_combine($this->locales, $this->locales)
-            )
-          )
-          /*->add(
-            'enabled',
-            null,
-            array(
-              'label' => 'Habilitado'
-            )
-          )*/;
+            ->add(
+                'description',
+                null,
+                array(
+                    'label' => 'post_collection.form.description_label',
+                )
+            );
+        if ($options['data'] !== null && $options['data']->getId()) {
+            $builder->add(
+                'locale',
+                ChoiceType::class,
+                array(
+                    'label' => 'post_collection.form.locale_label',
+                    'choices' => array_combine($this->locales, $this->locales),
+                )
+            );
+        };
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-          array(
-            'data_class' => 'Positibe\Bundle\NewsBundle\Entity\Collection'
-          )
+            array(
+                'data_class' => 'Positibe\Bundle\NewsBundle\Entity\Collection',
+            )
         );
     }
 
     /**
      * @return string
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'positibe_post_collection';
     }

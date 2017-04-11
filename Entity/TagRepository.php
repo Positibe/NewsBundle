@@ -10,8 +10,8 @@
 
 namespace Positibe\Bundle\NewsBundle\Entity;
 
-use Positibe\Bundle\CmfBundle\Repository\LocaleRepositoryTrait;
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
+use Positibe\Bundle\CoreBundle\Repository\EntityRepository;
+use Positibe\Bundle\CoreBundle\Repository\LocaleRepositoryTrait;
 
 
 /**

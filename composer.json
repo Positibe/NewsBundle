@@ -1,38 +1,35 @@
 {
     "name": "positibe/news-bundle",
     "type": "symfony-bundle",
-    "description": "Symfony PositibeNewsBundle",
-    "keywords": ["news","blog", "positibe", "positibelabs"],
-    "homepage": "http://positibelabs.blogspot.com/bundles/news",
+    "description": "Symfony Positibe News Bundle",
+    "keywords": ["news","blog", "content management system","positibe", "positibelabs"],
+    "homepage": "http://www.positibelabs.com/bundles/news",
     "license": "MIT",
-    "version": "0.2.1.0",
+    "version": "1.0.0-beta2",
     "authors": [
         {
             "name": "Pedro Carlos Abreu Jiménez",
             "email": "pcabreus@gmail.com",
-            "homepage": "http://pcabreus.blogspot.com"
+            "homepage": "https://github.com/pcabreus"
         },
         {
-            "name": "PositibeLabs Cooperative",
-            "homepage": "https://github.com/positibelabs"
+            "name": "PositibeLabs",
+            "homepage": "http://www.positibelabs.com"
         }
     ],
     "require": {
-        "symfony/framework-bundle": "~2.7",
-        "gedmo/doctrine-extensions": "~2.3",
-        "sylius/resource-bundle": "0.17.*",
-        "positibe/orm-content-bundle": "~0.4",
-        "positibe/cmf-bundle": "~0.4",
-        "positibe/classification-bundle": "~0.2",
-        "positibe/unique-views-bundle": "~0.1",
-        "twig/twig": "*"
+        "symfony/framework-bundle": "~2.8|~3.0",
+        "positibe/cms-bundle": "~1.0",
+        "positibe/core-bundle": "~1.0",
+        "positibe/classification-bundle": "~1.0",
+        "positibe/unique-views-bundle": "~1.0"
     },
     "autoload": {
         "psr-4": { "Positibe\\Bundle\\NewsBundle\\": "" }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.2.x-dev"
+            "dev-master": "1.0.x-dev"
         }
     }
 }

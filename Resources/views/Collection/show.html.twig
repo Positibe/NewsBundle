@@ -1,60 +1,14 @@
-{% extends '@PositibeCmf/layout.html.twig' %}
+{% set extends = 'admin.html.twig' %}
+{% set icon = 'glyphicon glyphicon-pushpin' %}
+{% set menu_active = 'post' %}
 
-    {% block title %}Categorías{% endblock %}
-    {% block subtitle %}{{ post_collection.name }}{% endblock %}
-    {% set menu_active = 'post' %}
-    {% set content_menu = 'post_collection' %}
+{% embed '@PositibeCore/Grid/show.html.twig' %}
+    {% block content_body %}
+        <h4>Nombre</h4>
 
-    {% block breadcrumb_list %}
-        <li>
-            <i class="fa fa-angle-right"></i>
-            <a href="{{ path('positibe_post_collection_index') }}">Categorías</a>
-        </li>
-        <li>
-            <i class="fa fa-angle-right"></i>
-            {{ post_collection.name }}
-        </li>
+        <p>{{ post_collection.name }}</p>
+        <h4>Descripción</h4>
+
+        <p>{{ post_collection.description }}</p>
     {% endblock %}
-
-    {% block content -%}
-
-        <div class="portlet light">
-            <div class="portlet-title">
-                <div class="caption">
-                    <p class="caption-subject font-green-sharp bold uppercase">
-                        <i class="fa fa-bookmark"></i> Categoría: {{ post_collection.name }}
-                    </p>
-                </div>
-                <div class="actions">
-                    <a href="{{ path('positibe_post_collection_index') }}"
-                       name="back" class="btn btn-default btn-circle"><i class="fa fa-angle-left"></i> Atras</a>
-
-                    <a href="{{ path('positibe_post_collection_update', { 'slug': post_collection.slug }) }}"
-                       class="btn btn-default btn-circle">
-                        <i class="fa fa-edit"></i> Editar
-                    </a>
-                </div>
-            </div>
-            <div class="portlet-body">
-                <div class="tabbable">
-                    <ul class="nav nav-tabs nav-tabs-lg">
-                        <li class="active">
-                            <a href="#tab_1" data-toggle="tab" aria-expanded="true">
-                                Detalles </a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="tab_1">
-                            <h4>Nombre</h4>
-
-                            <p>{{ post_collection.name }}</p>
-                            <h4>Descripción</h4>
-
-                            <p>{{ post_collection.description }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    {% endblock -%}
+{% endembed %}
