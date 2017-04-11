@@ -20,7 +20,6 @@
     "require": {
         "symfony/framework-bundle": "~2.8|~3.0",
         "positibe/cms-bundle": "~1.0",
-        "positibe/core-bundle": "~1.0",
         "positibe/classification-bundle": "~1.0",
         "positibe/unique-views-bundle": "~1.0"
     },
