@@ -1,0 +1,7 @@
+Positibe\Bundle\NewsBundle\Entity\Post:
+    conflict_resolver: auto_increment
+    definitions:
+        _default:
+            uri_schema: /blog/{title}
+    token_providers:
+        title: [content_method, { method: getTitle }]
