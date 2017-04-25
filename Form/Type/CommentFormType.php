@@ -5,9 +5,7 @@
 
 namespace Positibe\Bundle\NewsBundle\Form\Type;
 
-use Positibe\Bundle\NewsBundle\Entity\Comment;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
@@ -64,11 +62,12 @@ class CommentFormType extends AbstractType
 
         if ($this->authorizationChecker->isGranted('ROLE_MODERATOR')) {
             $builder->add(
-                'status',
-                ChoiceType::class,
+                'user',
+                null,
                 array(
-                    'label' => 'post_comment.form.status_label',
-                    'choices' => Comment::getStatusList(),
+                    'label' => 'post_comment.form.user_label',
+                    'attr' => ['class' => 'chosen-select'],
+                    'required' => false
                 )
             );
         }

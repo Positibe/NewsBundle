@@ -17,17 +17,17 @@ use Sonata\BlockBundle\Model\BlockInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-
 /**
- * Class LastNewsBlockService
+ * Class CategoriesBlockService
  * @package Positibe\Bundle\NewsBundle\Block
  *
  * @author Pedro Carlos Abreu <pcabreus@gmail.com>
  */
-class LastNewsBlockService extends AbstractBlockService
+class CategoriesBlockService extends AbstractBlockService
 {
-    protected $template = 'PositibeNewsBundle:Block:block_last_news.html.twig';
+    protected $template = 'PositibeNewsBundle:Block:block_categories.html.twig';
     protected $em;
+    protected $class = 'PositibeNewsBundle:Collection';
 
     /**
      * @param null|string $name
@@ -46,12 +46,15 @@ class LastNewsBlockService extends AbstractBlockService
             $response = new Response();
         }
 
-        $contents = $this->em->getRepository('PositibeNewsBundle:Post')->findLastNews(
-            $blockContext->getSetting('count'),
-            $blockContext->getSetting('by_author'),
-            $blockContext->getSetting('prevent_current'),
-            $blockContext->getSetting('order')
-        );
+        $newsPage = $this->em->getRepository('PositibeCmsBundle:Page')->findOneBy(['customController' => 'Noticias']);
+
+        if (!$contents = $blockContext->getSetting('contents')) {
+            $contents = $this->em->getRepository($this->class)->filterForBlock(
+                $blockContext->getSetting('count'),
+                $blockContext->getSetting('by_author'),
+                $blockContext->getSetting('prevent_current')
+            );
+        }
 
         if (count($contents) > 0) {
             $response = $this->renderResponse(
@@ -59,6 +62,7 @@ class LastNewsBlockService extends AbstractBlockService
                 array(
                     'block' => $blockContext->getBlock(),
                     'contents' => $contents,
+                    'newsPage' => $newsPage,
                 ),
                 $response
             );
@@ -77,10 +81,10 @@ class LastNewsBlockService extends AbstractBlockService
         $resolver->setDefaults(
             [
                 'template' => $this->template,
-                'count' => 3,
+                'count' => null,
                 'by_author' => null,
                 'prevent_current' => null,
-                'order' => null // publishStartDate by default
+                'contents' => null,
             ]
         );
     }

@@ -10,7 +10,10 @@
 
 namespace Positibe\Bundle\NewsBundle\Entity;
 
+use Doctrine\ORM\QueryBuilder;
+use Positibe\Bundle\CmsBundle\Repository\BaseContentRepositoryUtil;
 use Positibe\Bundle\CoreBundle\Repository\EntityRepository;
+use Positibe\Bundle\CoreBundle\Repository\FilterRepository;
 use Positibe\Bundle\CoreBundle\Repository\LocaleRepositoryTrait;
 
 
@@ -37,19 +40,46 @@ class PostRepository extends EntityRepository
         return $this->getQuery($qb)->getOneOrNullResult();
     }
 
-    public function findLastNews($count)
+    public function findLastNews($count, $author = null, $preventCurrent = null, $order = null)
     {
         $qb = $this->createQueryBuilder('o')
-            ->addSelect('image', 'routes')
+            ->addSelect('image')
             ->leftJoin('o.image', 'image')
-            ->leftJoin('o.routes', 'routes')
-            ->where('o.state = :state')
-            ->setMaxResults($count)->orderBy(
-                'o.publishStartDate',
-                'DESC'
-            )
-            ->setParameter('state', 'published');
+            ->setMaxResults($count)
+            ;
+
+        if ($author) {
+            $qb->join('o.author', 'author')->andWhere('author = :author')->setParameter('author', $author);
+        }
+        if ($preventCurrent) {
+            $qb->andWhere('o != :current')->setParameter('current', $preventCurrent);
+        }
+        $criteria = ['can_publish_on_date' => new \DateTime('now')];
+
+        BaseContentRepositoryUtil::canPublishOnDate($qb, $criteria);
+        BaseContentRepositoryUtil::joinRoutes($qb);
+
+        if($order === 'by_views'){
+            $qb->orderBy('o.countViews', 'DESC');
+        }else {
+            $qb->orderBy('o.publishStartDate', 'DESC');
+        }
 
         return $this->getQuery($qb)->getResult();
     }
+
+    /**
+     * @param QueryBuilder $queryBuilder
+     * @param array $criteria
+     */
+    protected function applyCriteria(QueryBuilder $queryBuilder, array $criteria = [])
+    {
+        BaseContentRepositoryUtil::canPublishOnDate($queryBuilder, $criteria);
+        BaseContentRepositoryUtil::joinRoutes($queryBuilder);
+        FilterRepository::filterToOneField($queryBuilder, $criteria, 'category', 'collections', false, 'o', 'name');
+        FilterRepository::filterToOneField($queryBuilder, $criteria, 'tag', 'tags', false, 'o', 'name');
+
+        parent::applyCriteria($queryBuilder, $criteria);
+    }
+
 } 

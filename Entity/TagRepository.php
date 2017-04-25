@@ -23,4 +23,30 @@ use Positibe\Bundle\CoreBundle\Repository\LocaleRepositoryTrait;
 class TagRepository extends EntityRepository
 {
     use LocaleRepositoryTrait;
+
+    /**
+     * @param null $count
+     * @param null $author
+     * @param null $preventCurrent
+     * @return array
+     */
+    public function filterForBlock($count = null, $author = null, $preventCurrent = null)
+    {
+        $qb = $this->createQueryBuilder('o')
+//            ->addSelect('COUNT(o.posts) as postsCount')
+//            ->orderBy('postsCount', 'DESC')
+        ;
+
+        if ($count) {
+            $qb->setMaxResults($count);
+        }
+        if ($author) {
+            $qb->join('o.posts', 'posts')->join('posts.author', 'author')->andWhere('author = :author')->setParameter('author', $author);
+        }
+        if ($preventCurrent) {
+            $qb->andWhere('o != :current')->setParameter('current', $preventCurrent);
+        }
+
+        return $this->getQuery($qb)->getResult();
+    }
 } 

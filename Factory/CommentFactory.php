@@ -12,7 +12,6 @@ namespace Positibe\Bundle\NewsBundle\Factory;
 
 use Doctrine\ORM\EntityManager;
 use Positibe\Bundle\NewsBundle\Entity\Comment;
-use Sylius\Component\Resource\Factory\Factory;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

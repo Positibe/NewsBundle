@@ -1,3 +1,5 @@
+ROLE_AUTHOR: Bloguero
+ROLE_MODERATOR: Moderador
 approved: Aprobado
 rejected: Rechazado
 pending: Pendiente
@@ -14,8 +16,10 @@ news:
         comments: Comentarios
         comments_empty: No hay comentarios en esta entrada. Se el primero en comentar
         send: Enviar
+        by_author: Otros título del autor
         comment_form: Deja un comentario
         about_author: Sobre el autor
+        comment_review: Su comentario se encuentra en revisión
 post:
     transition:
         to_review: Pasar a revisión y guardar
@@ -37,6 +41,7 @@ post:
         tags_add: Añadir etiquetas
         tags_others: Otras etiquetas
         tags_help: Separe las etiquetas por comas
+        author_header: Autor
         title_label: Título
         body_label: Contenido
         locale_label: Idioma
@@ -48,6 +53,7 @@ post:
         tags_label: Etiquetas
         collection_label: Categoría
         commentsEnabled_label: Permitir comentario
+        author_label: Autor
     list:
         page_title: Entradas
         page_subtitle: Lista de entradas
@@ -109,6 +115,7 @@ post_comment:
         url_label: Sitio web
         message_label: Comentario
         status_label: Estado
+        user_label: Vínculado al usuario
     breadcrumbs:
         index: Comentarios de entradas
         create: Nuevo comentario
@@ -155,3 +162,10 @@ post_collection:
         page_subtitle: Editar categoría de entradas
     show:
         page_title: Categoría de entradas
+block:
+    news_categories:
+        header: Categorías
+    news_tags:
+        header: Etiquetas
+    news_last_news:
+        header: Últimas entradas

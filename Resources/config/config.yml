@@ -2,6 +2,10 @@ positibe_cmf_routing_extra:
     controllers:
         Noticias:
             _controller: [PositibeNewsBundle:News:list, {}]
+
+positibe_user:
+    roles: [ROLE_AUTHOR, ROLE_MODERATOR]
+
 cmf_routing:
     dynamic:
         controllers_by_class:

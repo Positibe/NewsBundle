@@ -84,9 +84,16 @@ class NewsController extends Controller
         );
 
         $posts = $this->get('positibe.repository.post')->createPaginator(
-            ['state' => 'published'],
+            array_merge(
+                $request->get('criteria', []),
+                [
+                    'state' => 'published',
+                    'can_publish_on_date' => new \DateTime('now'),
+                ]
+            ),
             ['publishStartDate' => 'DESC']
         );
+        $posts->setCurrentPage($request->get('page', 1), true, true);
 
         $params = ['content' => $contentDocument, 'posts' => $posts];
 

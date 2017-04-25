@@ -5,12 +5,14 @@
 
 namespace Positibe\Bundle\NewsBundle\Form\Type;
 
+use Doctrine\ORM\EntityRepository;
 use Positibe\Bundle\ClassificationBundle\Form\Type\TagFormType;
 use Positibe\Bundle\CmsBundle\Form\Type\BaseContentType;
 use Positibe\Bundle\MediaBundle\Form\Type\ImageType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 /**
  * Class PostFormType
@@ -18,6 +20,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class PostFormType extends AbstractType
 {
+    /** @var  AuthorizationChecker */
+    protected $authorizationChecker;
+
+    /**
+     * @param AuthorizationChecker $authorizationChecker
+     */
+    public function __construct(AuthorizationChecker $authorizationChecker)
+    {
+        $this->authorizationChecker = $authorizationChecker;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -65,6 +78,23 @@ class PostFormType extends AbstractType
                     'expanded' => true,
                 )
             );
+        if ($this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+            $builder->add(
+                'author',
+                null,
+                [
+                    'label' => 'post.form.author_label',
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('u')
+                            ->where('u.roles LIKE :role')
+                            ->setParameter('role', "%ROLE_AUTHOR%");
+                    },
+                    'choice_label' => 'name'
+                ]
+            );
+        }
+
+
     }
 
     public function getParent()
@@ -78,11 +108,7 @@ class PostFormType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(
-            array(
-                'data_class' => 'Positibe\Bundle\NewsBundle\Entity\Post',
-            )
-        );
+        $resolver->setDefaults(['data_class' => 'Positibe\Bundle\NewsBundle\Entity\Post']);
     }
 
     /**

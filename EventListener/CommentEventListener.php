@@ -14,6 +14,7 @@ use Doctrine\ORM\EntityManager;
 use Positibe\Bundle\NewsBundle\Entity\Comment;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 
 /**
@@ -25,15 +26,21 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 class CommentEventListener implements EventSubscriberInterface
 {
     protected $manager;
+    protected $session;
 
-    public function __construct(EntityManager $manager)
+    public function __construct(EntityManager $manager, Session $session)
     {
         $this->manager = $manager;
+        $this->session = $session;
     }
 
     public static function getSubscribedEvents()
     {
-        return ['positibe.post_comment.pre_create' => 'onCreate', 'positibe.post_comment.pre_update' => 'onCreate'];
+        return [
+            'positibe.post_comment.pre_create' => 'onCreate',
+            'positibe.post_comment.pre_update' => 'onCreate',
+            'positibe.post_comment.post_create' => 'postCreate',
+        ];
     }
 
     public function onCreate(GenericEvent $event)
@@ -46,5 +53,12 @@ class CommentEventListener implements EventSubscriberInterface
         ) {
             $comment->setUser($user);
         }
+    }
+
+    public function postCreate(GenericEvent $event)
+    {
+        $comments = $this->session->get('comments');
+        $comments[$event->getSubject()->getId()] = true;
+        $this->session->set('comments', $comments);
     }
 }

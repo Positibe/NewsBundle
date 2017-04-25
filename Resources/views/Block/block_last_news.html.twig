@@ -1,6 +1,9 @@
-{% for content in contents %}
-    {% set page = content %}
-    <a href="{{ path(page) }}" class="content-title">{{ page.title|raw }}</a>
-    <p class="content-body">{{ page.body | striptags | decode_html | truncate(150) }}</p>
-    <hr>
-{% endfor %}
+<div class="card-text">
+    {% for content in contents %}
+        <p>
+            <a href="{{ path(content) }}" class="content-title">{{ content.title|raw }}</a>
+            <br>
+            <span class="content-body small text-muted">{{ content.body | striptags | decode_html | truncate(70) }}</span>
+        </p>
+    {% endfor %}
+</div>

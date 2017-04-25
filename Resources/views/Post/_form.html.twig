@@ -64,5 +64,13 @@
                 {{ form_row(form.tags.csv,{'help': 'post.form.tags_help' | trans}) }}
             </div>
         </div>
+        {% if form.author is defined %}
+            <div class="card mt-1">
+                <div class="card-block">
+                    <h4 class="card-title">{{ 'post.form.author_header' | trans }}</h4>
+                    {{ form_row(form.author) }}
+                </div>
+            </div>
+        {% endif %}
     </div>
 </div>
