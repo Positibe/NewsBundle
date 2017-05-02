@@ -3,15 +3,19 @@ positibe:
         create: La entrada se ha creado con éxito.
         update: La entrada se ha actualizado con éxito.
         delete: La entrada se ha eliminado con éxito.
+        not_deleted: La entrada no se ha podido eliminar porque está siendo usada por otro contenido.
     post_tag:
         create: La etiqueta se ha creado con éxito.
         update: La etiqueta se ha actualizado con éxito.
         delete: La etiqueta se ha eliminado con éxito.
+        not_deleted: La etiqueta no se ha podido eliminar porque está siendo usada por otro contenido.
     post_comment:
         create: El comentario se ha creado con éxito.
         update: El comentario se ha actualizado con éxito.
         delete: El comentario se ha eliminado con éxito.
+        not_deleted: El comentario no se ha podido eliminar porque está siendo usada por otro contenido.
     post_collection:
         create: La categoría se ha creado con éxito.
         update: La categoría se ha actualizado con éxito.
         delete: La categoría se ha eliminado con éxito.
+        not_deleted: La categoría no se ha podido eliminar porque está siendo usada por otro contenido.

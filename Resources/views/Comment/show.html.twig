@@ -9,7 +9,7 @@
             <form action="{{ path('positibe_post_comment_transition', {'id': post_comment.id}) }}" method="post">
                 {% for state in workflow_transitions(post_comment) %}
                     {% if state.name == 'unpublish' and workflow_can(post_comment, 'unpublish') -%}
-                        <button type="submit" name="transition" value="unpublish" class="btn btn-sm"><i
+                        <button type="submit" name="transition" value="unpublish" class="btn btn-sm btn-warning"><i
                                     class="fa fa-eye-slash"></i> {{ 'post_comment.transition.unpublish' | trans }}
                         </button>
                     {% elseif state.name == 'publish' and workflow_can(post_comment, 'publish') -%}

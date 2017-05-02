@@ -8,6 +8,8 @@ review: En revisión
 rejected: Rechazado
 published: Publicado
 unpublished: Despublicado
+action:
+    reply: Responder
 news:
     list:
         comments: Comentarios
@@ -138,6 +140,8 @@ post_comment:
         page_subtitle: Editar comentario de entradas
     show:
         page_title: Comentario de entradas
+    no_updated: No se ha podido actualizar su comentario
+    now: Ahora
 post_collection:
     breadcrumbs:
         index: Categorías de entradas

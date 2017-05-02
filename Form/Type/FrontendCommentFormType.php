@@ -11,13 +11,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 /**
- * Class CommentFormType
+ * Class FrontendCommentFormType
  * @package Positibe\Bundle\NewsBundle\Form\Type
+ *
+ * @author Pedro Carlos Abreu <pcabreus@gmail.com>
  */
-class CommentFormType extends AbstractType
+class FrontendCommentFormType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -25,40 +26,43 @@ class CommentFormType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->addEventListener(
+            FormEvents::POST_SET_DATA,
+            function (FormEvent $event) {
+                $type = null;
+                if ($event->getData()) {
+                    $type = HiddenType::class;
+                };
+
+                $event->getForm()
+                    ->add(
+                        'name',
+                        $type,
+                        array(
+                            'label' => 'post_comment.form.name_label',
+                        )
+                    )->add(
+                        'email',
+                        $type,
+                        array(
+                            'label' => 'post_comment.form.email_label',
+                        )
+                    )->add(
+                        'url',
+                        $type,
+                        array(
+                            'label' => 'post_comment.form.url_label',
+                        )
+                    );
+            }
+        );
+
         $builder
-            ->add(
-                'name',
-                null,
-                array(
-                    'label' => 'post_comment.form.name_label',
-                )
-            )->add(
-                'email',
-                null,
-                array(
-                    'label' => 'post_comment.form.email_label',
-                )
-            )->add(
-                'url',
-                null,
-                array(
-                    'label' => 'post_comment.form.url_label',
-                )
-            )
             ->add(
                 'message',
                 null,
                 array(
                     'label' => 'post_comment.form.message_label',
-                )
-            )
-            ->add(
-                'user',
-                null,
-                array(
-                    'label' => 'post_comment.form.user_label',
-                    'attr' => ['class' => 'chosen-select'],
-                    'required' => false,
                 )
             );
     }
@@ -80,6 +84,6 @@ class CommentFormType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'positibe_post_comment';
+        return 'post_comment';
     }
 }

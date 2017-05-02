@@ -60,6 +60,21 @@ class CommentFactory implements FactoryInterface
 
     }
 
+    public function createByComment($slug)
+    {
+        if (!$parent = $this->entityManager->getRepository('PositibeNewsBundle:Comment')->findOneBy(['slug' => $slug])) {
+            throw new NotFoundHttpException('No se encontró el comentario ' . $parent);
+        }
+
+        $comment = $this->createNew();
+
+        $comment->setParent($parent);
+        $comment->setState('published');
+
+        return $comment;
+
+    }
+
     /**
      * @param mixed $defaultState
      */

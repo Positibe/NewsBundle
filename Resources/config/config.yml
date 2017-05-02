@@ -38,7 +38,7 @@ sylius_resource:
             driver: doctrine/orm
             classes:
                 model: Positibe\Bundle\NewsBundle\Entity\Comment
-                controller: Positibe\Bundle\NewsBundle\Controller\PostController
+                controller: Positibe\Bundle\NewsBundle\Controller\CommentController
                 repository: Positibe\Bundle\NewsBundle\Entity\CommentRepository
                 factory: Positibe\Bundle\NewsBundle\Factory\CommentFactory
                 form: Positibe\Bundle\NewsBundle\Form\Type\CommentFormType
@@ -70,7 +70,7 @@ framework:
                 - unpublished
             transitions:
                 to_review:
-                    from: [draft,rejected]
+                    from: [draft, published]
                     to:   review
                 publish:
                     from: [review, unpublished]

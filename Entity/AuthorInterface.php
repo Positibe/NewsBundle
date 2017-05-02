@@ -19,5 +19,6 @@ namespace Positibe\Bundle\NewsBundle\Entity;
  */
 interface AuthorInterface
 {
+    /** @return string Author name */
     public function getName();
-} 
+}

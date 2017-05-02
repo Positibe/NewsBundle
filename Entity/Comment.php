@@ -2,10 +2,11 @@
 
 namespace Positibe\Bundle\NewsBundle\Entity;
 
-use AppBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Sluggable\Util\Urlizer;
+use Positibe\Bundle\UserBundle\Entity\UserInterface;
 use Positibe\Component\Publishable\Entity\StatePublishableTrait;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishableReadInterface;
@@ -31,6 +32,13 @@ class Comment implements ResourceInterface, PublishableReadInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="slug", type="string", length=255)
+     */
+    protected $slug;
 
     /**
      * Name of the author
@@ -93,7 +101,7 @@ class Comment implements ResourceInterface, PublishableReadInterface
     protected $post;
 
     /**
-     * @var User
+     * @var UserInterface
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      */
@@ -115,9 +123,8 @@ class Comment implements ResourceInterface, PublishableReadInterface
     public function __construct()
     {
         $this->children = new ArrayCollection();
+        $this->slug = Urlizer::urlize(uniqid(md5(time())));
     }
-
-
 
     public function getId()
     {
@@ -305,7 +312,7 @@ class Comment implements ResourceInterface, PublishableReadInterface
     }
 
     /**
-     * @return User
+     * @return UserInterface
      */
     public function getUser()
     {
@@ -313,10 +320,26 @@ class Comment implements ResourceInterface, PublishableReadInterface
     }
 
     /**
-     * @param User $user
+     * @param UserInterface $user
      */
     public function setUser($user)
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param string $slug
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
     }
 }

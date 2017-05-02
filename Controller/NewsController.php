@@ -10,8 +10,10 @@
 
 namespace Positibe\Bundle\NewsBundle\Controller;
 
-use Positibe\Bundle\NewsBundle\Form\Type\CommentFormType;
+use Positibe\Bundle\NewsBundle\Entity\Comment;
+use Positibe\Bundle\NewsBundle\Form\Type\FrontendCommentFormType;
 use Positibe\Bundle\UniqueViewsBundle\Model\VisitableInterface;
+use Positibe\Bundle\UserBundle\Entity\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,14 +57,23 @@ class NewsController extends Controller
             $this->get('positibe_unique_views.views_counter')->count($contentDocument);
         }
 
+        $contactData = null;
+        if ($this->isGranted('ROLE_USER')) {
+            /** @var UserInterface $user */
+            $user = $this->getUser();
+            $contactData = new Comment();
+            $contactData->setUser($user);
+            $contactData->setName($user->getName());
+            $contactData->setEmail($user->getEmail());
+            $contactData->setUrl($user->getUrl());
+        }
         $formComment = $this->createForm(
-            CommentFormType::class,
-            null,
+            FrontendCommentFormType::class,
+            $contactData,
             ['action' => $this->generateUrl('post_comment_create', ['postName' => $contentDocument->getName()]),]
         );
 
         $params = ['post' => $contentDocument, 'formComment' => $formComment->createView()];
-
 
         return $this->render($template, $params);
     }

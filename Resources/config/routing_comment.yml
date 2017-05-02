@@ -1,10 +1,35 @@
+post_comment_update:
+    path: /comment_blogpost/comment_update
+    methods: [GET]
+    defaults:
+        _controller: positibe.controller.post_comment:updateMessageAction
+        _sylius:
+            template: PositibeNewsBundle:Comment:create.html.twig
+            criteria: {slug: $slug}
+            redirect:
+                route: referer
+
+post_comment_reply:
+    path: /comment_blogpost/comment_reply
+    methods: [GET]
+    defaults:
+        _controller: positibe.controller.post_comment:replyMessageAction
+        _sylius:
+            template: PositibeNewsBundle:Comment:create.html.twig
+            factory:
+                method: createByComment
+                arguments: [$slug]
+            redirect:
+                route: referer
+
 post_comment_create:
-    path: /{postName}/new
+    path: /comment_blogpost/{postName}/new
     methods: [GET, POST]
     defaults:
         _controller: positibe.controller.post_comment:createAction
         _sylius:
             template: PositibeNewsBundle:Comment:create.html.twig
+            form: Positibe\Bundle\NewsBundle\Form\Type\FrontendCommentFormType
             factory:
                 method: createByPostName
                 arguments: [$postName]
