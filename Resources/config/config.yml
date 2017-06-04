@@ -1,3 +1,6 @@
+parameters:
+    positibe_post_form_class: Positibe\Bundle\NewsBundle\Form\Type\PostFormType
+
 positibe_cmf_routing_extra:
     controllers:
         Noticias:
@@ -19,7 +22,7 @@ sylius_resource:
                 model: Positibe\Bundle\NewsBundle\Entity\Post
                 controller: Positibe\Bundle\NewsBundle\Controller\PostController
                 repository: Positibe\Bundle\NewsBundle\Entity\PostRepository
-                form: Positibe\Bundle\NewsBundle\Form\Type\PostFormType
+                form: "%positibe_post_form_class%"
         positibe.post_tag:
             driver: doctrine/orm
             classes:

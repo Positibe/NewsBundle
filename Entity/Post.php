@@ -4,6 +4,8 @@ namespace Positibe\Bundle\NewsBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Positibe\Bundle\CmfRoutingExtraBundle\Entity\Traits\CustomRouteInformationTrait;
+use Positibe\Bundle\CmfRoutingExtraBundle\Model\CustomRouteInformationInterface;
 use Positibe\Bundle\CmsBundle\Entity\BaseContent;
 use Positibe\Bundle\MediaBundle\Entity\Media;
 use Positibe\Bundle\UniqueViewsBundle\Model\VisitableInterface;
@@ -20,9 +22,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\EntityListeners({"Positibe\Bundle\CmfRoutingExtraBundle\EventListener\RoutingAutoEntityListener"})
  */
-class Post extends BaseContent implements VisitableInterface, ResourceInterface
+class Post extends BaseContent implements VisitableInterface, ResourceInterface, CustomRouteInformationInterface
 {
     use VisitableTrait;
+    use CustomRouteInformationTrait;
 
     /**
      * @var integer

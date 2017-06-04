@@ -2,6 +2,7 @@ Positibe\Bundle\NewsBundle\Entity\Post:
     conflict_resolver: auto_increment
     definitions:
         _default:
-            uri_schema: /blog/{title}
+            uri_schema: /{date}/{title}
     token_providers:
         title: [content_method, { method: getTitle }]
+        date: [content_datetime, { method: getPublishStartDate, date_format: "Y/m/d" }]

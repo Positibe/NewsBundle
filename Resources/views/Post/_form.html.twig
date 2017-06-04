@@ -34,7 +34,8 @@
                 <h4 class="card-title">{{ 'post.form.configuration' | trans }}</h4>
 
                 <p class="badge badge-info">{{ (post.state) | trans }}</p>
-                {{ form_row(form.locale) }}
+                {% if form.locale is defined %}{{ form_row(form.locale) }}{% endif %}
+                {% if form.host is defined %}{{ form_row(form.host) }}{% endif %}
                 {{ form_row(form.collections) }}
                 {{ form_widget(form.image) }}
                 {% if form.name is defined %}
