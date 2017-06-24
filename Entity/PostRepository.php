@@ -45,8 +45,7 @@ class PostRepository extends EntityRepository
         $qb = $this->createQueryBuilder('o')
             ->addSelect('image')
             ->leftJoin('o.image', 'image')
-            ->setMaxResults($count)
-            ;
+            ->setMaxResults($count);
 
         if ($author) {
             $qb->join('o.author', 'author')->andWhere('author = :author')->setParameter('author', $author);
@@ -57,11 +56,11 @@ class PostRepository extends EntityRepository
         $criteria = ['can_publish_on_date' => new \DateTime('now')];
 
         BaseContentRepositoryUtil::canPublishOnDate($qb, $criteria);
-        BaseContentRepositoryUtil::joinRoutes($qb);
+        BaseContentRepositoryUtil::joinRoutes($qb, $this->locale);
 
-        if($order === 'by_views'){
+        if ($order === 'by_views') {
             $qb->orderBy('o.countViews', 'DESC');
-        }else {
+        } else {
             $qb->orderBy('o.publishStartDate', 'DESC');
         }
 
@@ -75,7 +74,7 @@ class PostRepository extends EntityRepository
     protected function applyCriteria(QueryBuilder $queryBuilder, array $criteria = [])
     {
         BaseContentRepositoryUtil::canPublishOnDate($queryBuilder, $criteria);
-        BaseContentRepositoryUtil::joinRoutes($queryBuilder);
+        BaseContentRepositoryUtil::joinRoutes($queryBuilder, $this->locale);
         FilterRepository::filterToOneField($queryBuilder, $criteria, 'category', 'collections', false, 'o', 'name');
         FilterRepository::filterToOneField($queryBuilder, $criteria, 'tag', 'tags', false, 'o', 'name');
 
