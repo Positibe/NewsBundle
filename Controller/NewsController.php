@@ -104,7 +104,10 @@ class NewsController extends Controller
             ),
             ['publishStartDate' => 'DESC']
         );
-        $posts->setCurrentPage($request->get('page', 1), true, true);
+        $posts->setCurrentPage($request->query->get('page', 1));
+
+        // This prevents Pagerfanta from querying database from a template
+        $posts->getCurrentPageResults();
 
         $params = ['content' => $contentDocument, 'posts' => $posts];
 

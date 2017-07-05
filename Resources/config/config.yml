@@ -76,7 +76,7 @@ framework:
                     from: [draft, published]
                     to:   review
                 publish:
-                    from: [review, unpublished]
+                    from: [draft, review, unpublished]
                     to:   published
                 reject:
                     from: review

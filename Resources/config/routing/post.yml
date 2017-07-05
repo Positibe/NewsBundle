@@ -1,8 +1,18 @@
+positibe_post_index:
+    path: /posts/
+    defaults:
+        _controller: "positibe.controller.post:indexAction"
+        _sylius:
+            template: PositibeNewsBundle:Post:index.html.twig
+            criteria:
+                host: "expr:service('session').has('active_website') ? [service('session').get('active_website')] : service('security.token_storage').getToken().getUser().getHosts()"
+
 positibe_post_crud:
     resource: |
         alias: positibe.post
         templates: PositibeNewsBundle:Post
         redirect: update
+        except: [index]
     type: sylius.resource
 
 
