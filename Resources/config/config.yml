@@ -6,6 +6,9 @@ positibe_cmf_routing_extra:
         Noticias:
             _controller: [PositibeNewsBundle:News:list, {}]
 
+positibe_cms:
+    entities_with_host: [Positibe\Bundle\NewsBundle\Entity\Post]
+
 positibe_user:
     roles: [ROLE_AUTHOR, ROLE_MODERATOR]
 
