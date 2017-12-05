@@ -99,12 +99,13 @@ class Post extends BaseContent implements VisitableInterface, ResourceInterface,
      */
     protected $collections;
 
-    public function __construct()
+    public function __construct($views = 0)
     {
         parent::__construct();
         $this->tags = new ArrayCollection();
         $this->collections = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->countViews = $views;
     }
 
     public function getCategoryName()

@@ -74,6 +74,14 @@ class NewsController extends Controller
         );
 
         $params = ['post' => $contentDocument, 'formComment' => $formComment->createView()];
+        $params['comments'] = $this->get('positibe.repository.post_comment')->findBy(
+            [
+                'post' => $contentDocument,
+                'parent' => null,
+                'state' => 'published',
+            ],
+            ['createdAt' => 'DESC']
+        );
 
         return $this->render($template, $params);
     }

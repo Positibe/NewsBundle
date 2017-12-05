@@ -48,6 +48,7 @@ sylius_resource:
                 repository: Positibe\Bundle\NewsBundle\Entity\CommentRepository
                 factory: Positibe\Bundle\NewsBundle\Factory\CommentFactory
                 form: Positibe\Bundle\NewsBundle\Form\Type\CommentFormType
+
 stof_doctrine_extensions:
     orm:
         default:
