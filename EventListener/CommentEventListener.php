@@ -53,6 +53,11 @@ class CommentEventListener implements EventSubscriberInterface
         ) {
             $comment->setUser($user);
         }
+        
+        //prevent spam
+        if (preg_match('/http:|<a/', $comment->getMessage())) {
+            $event->stopPropagation();
+        }
     }
 
     public function postCreate(GenericEvent $event)
