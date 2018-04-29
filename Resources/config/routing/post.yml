@@ -4,6 +4,8 @@ positibe_post_index:
         _controller: "positibe.controller.post:indexAction"
         _sylius:
             template: PositibeNewsBundle:Post:index.html.twig
+            sorting:
+                publishStartDate: DESC
             criteria:
                 host: "expr:service('session').has('active_website') ? [service('session').get('active_website')] : service('security.token_storage').getToken().getUser().getHosts()"
 

@@ -1,7 +1,7 @@
 {% set basePath = path(newsPage) %}
 <p class="card-text">
     {% for content in contents %}
-        <a href="{{ basePath ~ '?criteria%5Btag%5D=' ~ content.name }}"
-           class="badge badge-default"><i class="fa fa-tag"></i> {{ content.name }}</a>
+        <a href="{{ basePath ~ '?criteria%5Btag%5D=' ~ content.name }}">
+            <span class="badge badge-default"><i class="fa fa-tag"></i> {{ content.name }}</span></a>
     {% endfor %}
 </p>
